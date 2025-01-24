@@ -7,7 +7,8 @@ public class User {
     private int borrowingBooks;
     private int borrowedBooks;
     private static Random random = new Random();
-    public User(){
+
+    public User() {
         name = "Default";
         password = "0000";
         credentials = Credentials.Basic;
@@ -15,49 +16,48 @@ public class User {
         borrowedBooks = 0;
     }
 
-    //GETTERS
-    public String getName(){
+    // GETTERS
+    public String getName() {
         return name;
     }
 
-    public String getPassword(){
+    public String getPassword() {
         return password;
     }
 
-    public Credentials getCredentials(){
+    public Credentials getCredentials() {
         return credentials;
     }
 
-    public int getBorrowingBooks(){
+    public int getBorrowingBooks() {
         return borrowingBooks;
     }
 
-    public int getBorrowedBooks(){
+    public int getBorrowedBooks() {
         return borrowedBooks;
     }
 
-    //SETTERS
-    public void setName(String name){
+    // SETTERS
+    public void setName(String name) {
         this.name = name;
     }
-    //borra contraseña y genera contraseña nueva random de 4 cifras del 0 al 9
-    public void setPassword(){
+
+    public void setPassword() { // borra contraseña y genera contraseña nueva random de 4 cifras del 0 al 9
         this.password = "";
         for (int i = 0; i < 4; i++) {
-            this.password += random.nextInt(0,9);
+            this.password += random.nextInt(0, 9);
         }
     }
 
-    public void setCredentials(Credentials credentials){
+    public void setCredentials(Credentials credentials) {
         this.credentials = credentials;
     }
 
-    public void setBorrowingBooks(int borrowingBooks){
+    public void setBorrowingBooks(int borrowingBooks) {
         this.borrowingBooks = borrowingBooks;
     }
 
-    public void setBorrowedBooks(int borrowedBooks){
+    public void setBorrowedBooks(int borrowedBooks) {
         this.borrowedBooks = borrowedBooks;
     }
 }
-

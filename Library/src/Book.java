@@ -10,7 +10,7 @@ public class Book {
         status = Status.Available;
     }
 
-    // getters
+    //GETTERS
     public String getTitle() {
         return title;
     }
@@ -27,7 +27,7 @@ public class Book {
         return status;
     }
 
-    // setters
+    //SETTERS
     public void setTitle(String title) {
         this.title = title;
     }
