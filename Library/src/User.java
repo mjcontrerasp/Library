@@ -5,16 +5,26 @@ public class User {
     int borrowingBooks;
     int borrowedBooks;
 
+    /**
+     * 
+     * @param name
+     * @param password
+     */
     public User(String name, String password) {
         this.name = name;
         this.password = password;
     }
 
-    public String getName(){
+    /**
+     * getters
+     * 
+     * @return
+     */
+    public String getName() {
         return name;
     }
 
-    public String getPassword(){
+    public String getPassword() {
         return password;
     }
 }
