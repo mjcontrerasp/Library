@@ -1,4 +1,7 @@
+import java.util.Scanner;
 public class Library {
+    public static final Scanner sc = new Scanner(System.in);
+
     public int numUsers = 0;
     public int maxUsers = 50;
     public User [] users = new User [maxUsers];
@@ -8,6 +11,9 @@ public class Library {
         Book [] books = new Book [maxBooks];
         int numBooks = 0;
 
+
+
+        sc.close();
     }
     public Boolean login(String loginName, String loginPassword){
         for (int i = 0; i < numUsers; i++) {
@@ -21,6 +27,10 @@ public class Library {
         }
         System.out.println("Wrong user name");
         return false;
+    }
+
+    public static void menuLogin(){
+
     }
 
 }
