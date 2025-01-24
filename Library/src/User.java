@@ -1,23 +1,25 @@
 import java.util.Random;
-
 public class User {
-    private String name;
-    private String password;
-    private Credentials credentials;
-    private int borrowingBooks;
-    private int borrowedBooks;
-    private static Random random = new Random();
+   private String name;
+   private String password;
+   private Credentials credential;
+   private int borrowingBooks;
+   private int borrowedBooks;
 
-    public User() {
-        name = "Default";
-        password = "0000";
-        credentials = Credentials.Basic;
-        borrowingBooks = 0;
-        borrowedBooks = 0;
+    public User(String name, String password, int borrowingBooks, int borrowedBooks) {
+        this.name = name;
+        this.password = password;
+        this.borrowingBooks = 0;
+        this.borrowedBooks = 0;
+    }
+    public User(){
+        this.name = "";
+        this.password = "";
+        this.borrowingBooks = 0;
+        this.borrowedBooks = 0;
     }
 
-    // GETTERS
-    public String getName() {
+    public String getName(){
         return name;
     }
 
@@ -26,7 +28,7 @@ public class User {
     }
 
     public Credentials getCredentials() {
-        return credentials;
+        return credential;
     }
 
     public int getBorrowingBooks() {
@@ -45,12 +47,12 @@ public class User {
     public void setPassword() { // borra contraseña y genera contraseña nueva random de 4 cifras del 0 al 9
         this.password = "";
         for (int i = 0; i < 4; i++) {
-            this.password += random.nextInt(0, 9);
+            this.password += String.valueOf(random.nextInt(10));
         }
     }
 
-    public void setCredentials(Credentials credentials) {
-        this.credentials = credentials;
+    public void setCredentials(Credentials credential) {
+        this.credential = credential;
     }
 
     public void setBorrowingBooks(int borrowingBooks) {
