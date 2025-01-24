@@ -9,7 +9,7 @@ public class Library {
         int numBooks = 0;
 
     }
-    public Boolean login(String loginName, String loginPassword){
+    public Boolean login(String loginName, String loginPassword){ //check for a math in users[]
         for (int i = 0; i < numUsers; i++) {
             if (users[i].getName().equals(loginName)) {
                 if(users[i].getPassword().equals(loginPassword)){
