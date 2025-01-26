@@ -87,7 +87,7 @@ public class Library {
                     break;
                 case 2:
                     System.out.println("Saliendo del programa.");
-                    return;
+                    break;
                 default:
                     System.out.println("Opción no válida, por favor intenta de nuevo.");
                     break;

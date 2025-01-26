@@ -1,4 +1,3 @@
-import java.util.Random;
 
 public class User {
     private String name;
@@ -6,19 +5,7 @@ public class User {
     private Credentials credential;
     private int borrowingBooks;
     private int borrowedBooks;
-    private Random random;
 
-    /*
-     * Constructor for the User class
-     */
-    public User(String name, String password, int borrowingBooks, int borrowedBooks, Credentials credential) {
-        this.name = name;
-        this.password = password;
-        this.borrowingBooks = borrowingBooks;
-        this.borrowedBooks = borrowedBooks;
-        this.credential = credential;
-        this.random = new Random();
-    }
     /*
      * Constructor for the User class
      */
@@ -28,14 +15,22 @@ public class User {
         this.borrowingBooks = 0;
         this.borrowedBooks = 0;
         this.credential = Credentials.Basic;
-        this.random = new Random();
     }
+    /*
+     * Constructor for the User class
+     */
+    public User(String name, String password, Credentials credential) {
+        this();
+        this.name = name;
+        this.password = password;
+        this.credential = credential;
+    }
+    
 
     public String getName() {
         return name;
     }
 
-    public String getPassword() {
     public String getPassword() {
         return password;
     }
@@ -57,11 +52,8 @@ public class User {
         this.name = name;
     }
 
-    public void setPassword() {
-        this.password = "";
-        for (int i = 0; i < 4; i++) {
-            this.password += String.valueOf(random.nextInt(10));
-        }
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public void setCredential(Credentials credential) {
