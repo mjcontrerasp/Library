@@ -50,40 +50,110 @@ public class Library {
     }
 
     /*
-     * Method to show the login menu
+     * Method to add a new user
+     * first menu option
      */
-    public static void menuLogin() {
+    private void menuLogin() {
         while (true) {
-            System.out.println();
-            System.out.println("*****************************");
-            System.out.println("*                           *");
-            System.out.println("*   BIBLIOTECA DEL PUEBLO   *");
-            System.out.println("*                           *");
-            System.out.println("*****************************");
-            System.out.println("* 1. Iniciar sesión         *");
-            System.out.println("* 0. Salir                  *");
-            System.out.println("*****************************");
+            System.out.println(
+                "*****************************\n" +
+                "*       MENU PRINCIPAL      *\n" +
+                "*****************************\n" +
+                "1. Iniciar sesión\n" +
+                "2. Salir\n" +
+                "*****************************"
+            );
             System.out.print("Elige una opción: ");
-            int choice = sc.nextInt();
-            System.out.println();
-            sc.nextLine();
-
-            if (choice == 1) {
-                System.out.print("Nombre de usuario: ");
-                String loginName = sc.nextLine();
-                System.out.print("Contraseña: ");
-                String loginPassword = sc.nextLine();
-                if (login(loginName, loginPassword)) {
-                    System.out.println("Inicio de sesión exitoso.");
+            int choice = Integer.parseInt(sc.nextLine());
+    
+            switch (choice) {
+                case 1:
+                    System.out.print("Nombre de usuario: ");
+                    String loginName = sc.nextLine();
+                    System.out.print("Contraseña: ");
+                    String loginPassword = sc.nextLine();
+                    if (login(loginName, loginPassword)) {
+                        User user = null;
+                        for (int i = 0; i < numUsers; i++) {
+                            if (users[i].getName().equals(loginName)) {
+                                user = users[i];
+                                break;
+                            }
+                        }
+                        if (user != null) {
+                            menuLibrary(user);
+                        }
+                    }
                     break;
-                }
-            } else if (choice == 0) {
-                System.out.println("Saliendo del sistema.");
-                break;
-            } else {
-                System.out.println("Opción no válida, por favor intenta de nuevo.");
+                case 2:
+                    System.out.println("Saliendo del programa.");
+                    return;
+                default:
+                    System.out.println("Opción no válida, por favor intenta de nuevo.");
+                    break;
             }
         }
     }
+    
 
+    /**
+     * Method to show the library menu
+     * 
+     * @param user
+     */
+    private void menuLibrary(User user) {
+        while (true) {
+            System.out.println("*****************************");
+            System.out.println("*       MENU DE LIBRERIA    *");
+            System.out.println("*****************************");
+            if (user.getCredential() == Credentials.Admin) {
+                System.out.println(
+                "1. Agregar libro\n" +
+                "2. Eliminar libro\n" +
+                "3. Registrar usuario\n" +
+                "4. Consultar usuarios\n" +
+                "5. Mostrar libros prestados\n" +
+                "6. Mostrar todos los libros\n" +
+                "7. Buscar libros\n" +
+                "8. Mostrar estadísticas\n" +
+                "9. Salir"
+            );
+            } else {
+                System.out.println(
+                "1. Realizar préstamo\n" +
+                "2. Devolver libro\n" +
+                "3. Mostrar todos los libros\n" +
+                "4. Buscar libros\n" +
+                "5. Salir"
+            );
+            }
+            System.out.print("Elige una opción: ");
+            int choice = Integer.parseInt(sc.nextLine());
+        
+            if (user.getCredential() == Credentials.Admin) {
+                 switch (choice) {
+                 case 1->
+                 case 2->
+                 case 3->
+                 case 4->
+                 case 5->
+                 case 6->
+                 case 7->
+                 case 8->
+                 case 9-> break;
+                 default ->System.out.println("Opción no válida.");
+            } else {
+                 switch (choice) {
+                 case 1->
+                 case 2->
+                 case 3->
+                 case 4->
+                 case 5-> break;
+                 default -> System.out.println("Opción no válida.");
+                }
+            }
+                 
+            }
+        }
+    }
 }
