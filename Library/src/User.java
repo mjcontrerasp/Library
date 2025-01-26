@@ -1,25 +1,33 @@
-import java.util.Random;
-public class User {
-   private String name;
-   private String password;
-   private Credentials credential;
-   private int borrowingBooks;
-   private int borrowedBooks;
 
-    public User(String name, String password, int borrowingBooks, int borrowedBooks) {
-        this.name = name;
-        this.password = password;
-        this.borrowingBooks = 0;
-        this.borrowedBooks = 0;
-    }
-    public User(){
+public class User {
+    private String name;
+    private String password;
+    private Credentials credential;
+    private int borrowingBooks;
+    private int borrowedBooks;
+
+    /*
+     * Constructor for the User class
+     */
+    public User() {
         this.name = "";
         this.password = "";
         this.borrowingBooks = 0;
         this.borrowedBooks = 0;
+        this.credential = Credentials.Basic;
     }
+    /*
+     * Constructor for the User class
+     */
+    public User(String name, String password, Credentials credential) {
+        this();
+        this.name = name;
+        this.password = password;
+        this.credential = credential;
+    }
+    
 
-    public String getName(){
+    public String getName() {
         return name;
     }
 
@@ -27,7 +35,7 @@ public class User {
         return password;
     }
 
-    public Credentials getCredentials() {
+    public Credentials getCredential() {
         return credential;
     }
 
@@ -44,14 +52,11 @@ public class User {
         this.name = name;
     }
 
-    public void setPassword() { // borra contraseña y genera contraseña nueva random de 4 cifras del 0 al 9
-        this.password = "";
-        for (int i = 0; i < 4; i++) {
-            this.password += String.valueOf(random.nextInt(10));
-        }
+    public void setPassword(String password) {
+        this.password = password;
     }
 
-    public void setCredentials(Credentials credential) {
+    public void setCredential(Credentials credential) {
         this.credential = credential;
     }
 
@@ -61,5 +66,9 @@ public class User {
 
     public void setBorrowedBooks(int borrowedBooks) {
         this.borrowedBooks = borrowedBooks;
+    }
+
+    public boolean isAdmin() {
+        return this.credential == Credentials.Admin;
     }
 }
