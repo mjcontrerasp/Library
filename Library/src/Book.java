@@ -10,6 +10,12 @@ public class Book {
         status = Status.Available;
     }
 
+    public Book(String title, String author, Category category){
+        this();
+        this.title = title;
+        this.author = author;
+        this.category = category;
+    }
     //GETTERS
     public String getTitle() {
         return title;
