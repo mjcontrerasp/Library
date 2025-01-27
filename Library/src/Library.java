@@ -52,10 +52,9 @@ public class Library {
     }
 
     /*
-     * Method to add a new user
      * first menu option
      */
-    private void menuLogin() {
+    public static void menuLogin() {
         while (true) {
             System.out.println(
                     "*****************************\n" +
@@ -101,7 +100,7 @@ public class Library {
      * 
      * @param user
      */
-    private void menuLibrary(User user) {
+    public static void menuLibrary(User user) {
         while (true) {
             System.out.println("*****************************");
             System.out.println("*       MENU DE LIBRERIA    *");
@@ -162,7 +161,7 @@ public class Library {
      * 
      * @return category seleccionada
      */
-    public Category menuCategory() {
+    public static Category menuCategory() {
         Category category = Category.Default;
         boolean flag;
         do {
@@ -202,7 +201,7 @@ public class Library {
      * 
      * @return status seleccionada
      */
-    public Status menuStatus() {
+    public static Status menuStatus() {
         Status status = Status.Available;
         boolean flag;
         do {
@@ -229,7 +228,7 @@ public class Library {
      * Escanea titulo, autor y categoria
      * crea un nuevo Book en posicion numBooks
      */
-    public void addNewBook() {
+    public static void addNewBook() {
         // Comprobacion de espacio
         if (numBooks >= maxBooks) {
             System.out.println("Biblioteca llena.");
@@ -248,7 +247,7 @@ public class Library {
         }
     }
 
-    public void searchBooks() {
+    public static void searchBooks() {
         // Borrar array temporal de busqueda de libros
         for (int i = 0; i < numBooks; i++) {
             searchBooks[i] = null;
@@ -314,7 +313,7 @@ public class Library {
     }
 
     // Muestra todos los libros del array searchBooks
-    public void printSearchBooks() {
+    public static void printSearchBooks() {
         for (int i = 0; i < numBooks; i++) {
             if (searchBooks[i] != null) {
                 System.out.println("\nLibro: " + i
@@ -327,7 +326,7 @@ public class Library {
     }
 
     // Muestra todos los libros del array books
-    public void printBooks() {
+    public static void printBooks() {
         for (int i = 0; i < numBooks; i++) {
             System.out.println("\nLibro: " + i
                     + "\nTitulo: " + books[i].getTitle()
@@ -338,14 +337,14 @@ public class Library {
     }
 
     // Elimina un libro
-    public void deleteBook(int position) {
+    public static void deleteBook(int position) {
         books[position] = null;
         numBooks--;
         System.out.println("\nLibro " + position + " eliminado.");
     }
 
     // Reorganiza books[] para que no haya huecos
-    public void reorganiceBooks() {
+    public static void reorganiceBooks() {
         for (int i = 0; i < maxBooks; i++) {
             if (books[i] == null) {
                 for (int j = i; j < maxBooks - 1; j++) {
