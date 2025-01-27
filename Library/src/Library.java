@@ -10,7 +10,6 @@ public class Library {
     public static Book[] books = new Book[maxBooks];
     public static int numBooks = 0;
     public static Book[] searchBooks = new Book[maxBooks]; // Array temporal para buscar libros
-    public static int numSearchBooks = 0;
 
     /**
      * Main method
@@ -147,8 +146,8 @@ public class Library {
                  switch (choice) {
                  case 1->
                  case 2->
-                 case 3->
-                 case 4->
+                 case 3-> printBooks();
+                 case 4-> {searchBooks(); printSearchBooks();}
                  case 5-> break;
                  default -> System.out.println("Opción no válida.");
                 }
@@ -250,11 +249,9 @@ public class Library {
 
     public void searchBooks() {
         // Borrar array temporal de busqueda de libros
-        for (int i = 0; i < numSearchBooks; i++) {
+        for (int i = 0; i < numBooks; i++) {
             searchBooks[i] = null;
         }
-        //Resetear contador searchBooks
-        numSearchBooks = 0;
         boolean flag;
         do {
             flag = false;
@@ -272,7 +269,6 @@ public class Library {
                     for (int i = 0; i < numBooks; i++) {
                         if (books[i].getTitle().equals(title)) {
                             searchBooks[i] = books[i];
-                            numSearchBooks ++;
                         }
                     }
                 }
@@ -282,7 +278,6 @@ public class Library {
                     for (int i = 0; i < numBooks; i++) {
                         if (books[i].getAuthor().equals(author)) {
                             searchBooks[i] = books[i];
-                            numSearchBooks ++;
                         }
                     }
                 }
@@ -291,7 +286,6 @@ public class Library {
                     for (int i = 0; i < numBooks; i++) {
                         if (books[i].getCategory() == category) {
                             searchBooks[i] = books[i];
-                            numSearchBooks ++;
                         }
                     }
                 }
@@ -300,7 +294,6 @@ public class Library {
                     for (int i = 0; i < numBooks; i++) {
                         if (books[i].getStatus() == status) {
                             searchBooks[i] = books[i];
-                            numSearchBooks ++;
                         }
                     }
                 }
@@ -314,12 +307,14 @@ public class Library {
 
     // Muestra todos los libros del array searchBooks
     public void printSearchBooks() {
-        for (int i = 0; i < numSearchBooks; i++) {
-            System.out.println("\nLibro: " + i
-                    + "\nTitulo: " + searchBooks[i].getTitle()
-                    + "\nAutor:" + searchBooks[i].getTitle()
-                    + "\nCategoria:" + searchBooks[i].getCategory()
-                    + "\nEstado:" + searchBooks[i].getStatus());
+        for (int i = 0; i < numBooks; i++) {
+            if (searchBooks[i] != null) {
+                System.out.println("\nLibro: " + i
+                        + "\nTitulo: " + searchBooks[i].getTitle()
+                        + "\nAutor:" + searchBooks[i].getTitle()
+                        + "\nCategoria:" + searchBooks[i].getCategory()
+                        + "\nEstado:" + searchBooks[i].getStatus());
+            }
         }
     }
 
@@ -334,23 +329,22 @@ public class Library {
         }
     }
 
-    //Elimina un libro
-    public void deleteBook(int position){
+    // Elimina un libro
+    public void deleteBook(int position) {
         books[position] = null;
-        System.out.println("\nLibro "+position+" eliminado.");
+        System.out.println("\nLibro " + position + " eliminado.");
     }
 
-    //Reorganiza books[] para que no haya huecos
-    public void reorganiceBooks(){
+    // Reorganiza books[] para que no haya huecos
+    public void reorganiceBooks() {
         for (int i = 0; i < maxBooks; i++) {
             if (books[i] == null) {
-                for (int j = i; j < maxBooks -1; j++) {
-                    books[i] = books[i+1];
+                for (int j = i; j < maxBooks - 1; j++) {
+                    books[i] = books[i + 1];
                 }
-                books[maxBooks]=null;
+                books[maxBooks] = null;
             }
         }
     }
-
 
 }
