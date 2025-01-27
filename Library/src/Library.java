@@ -10,6 +10,7 @@ public class Library {
     public static Book[] books = new Book[maxBooks];
     public static int numBooks = 0;
     public static Book[] searchBooks = new Book[maxBooks]; // Array temporal para buscar libros
+    public static int numSearchBooks = 0;
 
     /**
      * Main method
@@ -252,6 +253,8 @@ public class Library {
         for (int i = 0; i < numBooks; i++) {
             searchBooks[i] = null;
         }
+        //Resetear contador numSearchBooks
+        numSearchBooks = 0;
         boolean flag;
         do {
             flag = false;
@@ -269,6 +272,7 @@ public class Library {
                     for (int i = 0; i < numBooks; i++) {
                         if (books[i].getTitle().equals(title)) {
                             searchBooks[i] = books[i];
+                            numSearchBooks++;
                         }
                     }
                 }
@@ -278,6 +282,7 @@ public class Library {
                     for (int i = 0; i < numBooks; i++) {
                         if (books[i].getAuthor().equals(author)) {
                             searchBooks[i] = books[i];
+                            numSearchBooks++;
                         }
                     }
                 }
@@ -286,6 +291,7 @@ public class Library {
                     for (int i = 0; i < numBooks; i++) {
                         if (books[i].getCategory() == category) {
                             searchBooks[i] = books[i];
+                            numSearchBooks++;
                         }
                     }
                 }
@@ -294,6 +300,7 @@ public class Library {
                     for (int i = 0; i < numBooks; i++) {
                         if (books[i].getStatus() == status) {
                             searchBooks[i] = books[i];
+                            numSearchBooks++;
                         }
                     }
                 }
@@ -302,6 +309,7 @@ public class Library {
                     System.out.println("Opcion inválida, vuelve a elegir");
                 }
             }
+            System.out.println("Se han encontrado "+numSearchBooks+" libros.");
         } while (flag);
     }
 
@@ -332,6 +340,7 @@ public class Library {
     // Elimina un libro
     public void deleteBook(int position) {
         books[position] = null;
+        numBooks--;
         System.out.println("\nLibro " + position + " eliminado.");
     }
 
