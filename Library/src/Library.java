@@ -19,11 +19,44 @@ public class Library {
      * @throws Exception
      */
     public static void main(String[] args) throws Exception {
-        Credentials currentUser;
-
-        menuLogin();
 
         sc.close();
+    }
+
+    public static void addNewUser() {
+        boolean choice = true;
+        while (choice) {
+            System.out.println("Nombre de usuario: ");
+            String name = sc.nextLine();
+            if (notRepeatName(name) == false) {
+                System.out.println("Nombre de usuario ya en uso, por favor, elija un nombre de usuario nuevo");
+            } else {
+                choice = false;
+            }
+        }
+        System.out.println("Contraseña: ");
+        String password = sc.nextLine();
+
+        Credentials userCredential = null;
+        while (true) {
+            System.out.print("Tipo de usuario (1. Administrador, 2. Básico): ");
+            int choice = Integer.parseInt(sc.nextLine());
+            switch (choice) {
+                case 1 -> userCredential = Credentials.Admin;
+                case 2 -> userCredential = Credentials.Basic;
+                default -> System.out.println("Opción no válida. Por favor, elija 1 o 2.");
+            }
+        }
+
+    }
+
+    public static boolean notRepeatName(String user) {
+        for (int i = 0; i < users.length; i++) {
+            if (users[i].getName().equals(user)) {
+                return false;
+            }
+        }
+        return true;
     }
 
     /**
@@ -133,12 +166,12 @@ public class Library {
                  switch (choice) {
                  case 1-> addNewBook();
                  case 2-> {System.out.print("Posicion del libro a eliminar: "); int position = Integer.parseInt(sc.nextLine()); deleteBook(position); reorganiceBooks();}
-                 case 3->
-                 case 4->
+                 case 3-> addNewUser();
+                 case 4-> ;
                  case 5-> {searchBooks(); printSearchBooks();} //case 5 y case 7 son iguales con el codigo de esta forma
                  case 6-> printBooks();
                  case 7-> {searchBooks(); printSearchBooks();}
-                 case 8->
+                 case 8->; 
                  case 9-> break;
                  default ->System.out.println("Opción no válida.");
                 }
@@ -247,12 +280,15 @@ public class Library {
         }
     }
 
+    /*
+     * shearchBooks for cathegory or status
+     */
     public static void searchBooks() {
         // Borrar array temporal de busqueda de libros
         for (int i = 0; i < numBooks; i++) {
             searchBooks[i] = null;
         }
-        //Resetear contador numSearchBooks
+        // Resetear contador numSearchBooks
         numSearchBooks = 0;
         boolean flag;
         do {
@@ -308,7 +344,7 @@ public class Library {
                     System.out.println("Opcion inválida, vuelve a elegir");
                 }
             }
-            System.out.println("Se han encontrado "+numSearchBooks+" libros.");
+            System.out.println("Se han encontrado " + numSearchBooks + " libros.");
         } while (flag);
     }
 

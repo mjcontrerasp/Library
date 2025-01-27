@@ -2,6 +2,7 @@ public class Book {
     private String title, author;
     private Category category;
     private Status status;
+    private int sbn;
 
     public Book() {
         title = "Default";
