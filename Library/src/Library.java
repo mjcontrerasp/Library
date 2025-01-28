@@ -1,6 +1,5 @@
-import java.awt.desktop.UserSessionEvent;
 import java.util.Scanner;
-import java.util.jar.Attributes;
+
 
 public class Library {
     public static final Scanner sc = new Scanner(System.in);
@@ -127,9 +126,9 @@ public class Library {
                     String loginPassword = sc.nextLine();
                     if (login(loginName, loginPassword)) {
                         User user = null;
-                        for (int i = 0; i < numUsers; i++) {
-                            if (users[i].getName().equals(loginName)) {
-                                user = users[i];
+                        for (int i = 0; i < User.getContUsers(); i++) {
+                            if (User.getUsers()[i].getName().equals(loginName)) {
+                                user = User.getUsers()[i];
                                 break;
                             }
                         }
@@ -187,7 +186,7 @@ public class Library {
                  case 1-> addNewBook();
                  case 2-> {System.out.print("Posicion del libro a eliminar: "); int position = Integer.parseInt(sc.nextLine()); deleteBook(position); reorganiceBooks();}
                  case 3-> addNewUser();
-                 case 4-> break;
+                 case 4-> userSee();
                  case 5-> {searchBooks(); printSearchBooks();} //case 5 y case 7 son iguales con el codigo de esta forma
                  case 6-> printBooks();
                  case 7-> {searchBooks(); printSearchBooks();}
@@ -411,6 +410,9 @@ public class Library {
         }
     }
 
+    /*
+     * Muestra la informacion del usuario
+     */
     public static void userInfo(User user) {
         System.out.println("Información del usuario:");
         System.out.println("Nombre: " + user.getName());
@@ -420,4 +422,21 @@ public class Library {
         System.out.println("Libros prestados: " + user.getBorrowedBooks());
     }
 
+    /*
+     * Muestra la informacion de todos los usuarios
+     */
+    public static void userSee(){
+        for (int i = 0; i < User.getContUsers(); i++) {
+            User user = User.getUsers()[i];
+            if (user != null) {
+                System.out.println("Nombre: " + user.getName());
+                System.out.println("Contraseña: " + user.getPassword());
+                System.out.println("Credenciales: " + user.getCredential());
+                System.out.println("Libros en préstamo: " + user.getBorrowingBooks());
+                System.out.println("Libros prestados: " + user.getBorrowedBooks());
+                System.out.println("------------------------------");
+            }
+        }
+
+}
 }
