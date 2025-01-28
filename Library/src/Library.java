@@ -1,11 +1,13 @@
+import java.awt.desktop.UserSessionEvent;
 import java.util.Scanner;
+import java.util.jar.Attributes;
 
 public class Library {
     public static final Scanner sc = new Scanner(System.in);
 
-    public static int numUsers = 0;
-    public static int maxUsers = 50;
-    public static User[] users = new User[maxUsers];
+    // public static int numUsers = 0;
+    // public static int maxUsers = 50;
+    // public static User[] users = new User[maxUsers];
     public static int maxBooks = 60;
     public static Book[] books = new Book[maxBooks];
     public static int numBooks = 0;
@@ -19,16 +21,32 @@ public class Library {
      * @throws Exception
      */
     public static void main(String[] args) throws Exception {
+        User.fullUser("admin", "1234", Credentials.Admin);
+        User.fullUser("user1", "1234", Credentials.Basic);
+        User.fullUser("user2", "1234", Credentials.Basic);
+        menuLogin();
+
+        books[0] = new Book("Don Quijote de la Mancha", "Miguel de Cervantes", Category.Fiction);
+        books[1] = new Book("Cien años de soledad", "Gabriel García Márquez", Category.Fiction);
+        books[2] = new Book("1984", "George Orwell", Category.Science);
+        books[3] = new Book("Orgullo y prejuicio", "Jane Austen", Category.Fiction);
+        books[4] = new Book("El gran Gatsby", "F. Scott Fitzgerald", Category.Fiction);
+        books[5] = new Book("Matar a un ruiseñor", "Harper Lee", Category.Fiction);
+        books[6] = new Book("Crimen y castigo", "Fiódor Dostoyevski", Category.Fiction);
+        books[7] = new Book("Harry Potter y la piedra filosofal", "J.K. Rowling", Category.Fiction);
+        books[8] = new Book("El Hobbit", "J.R.R. Tolkien", Category.Fiction);
+        books[9] = new Book("En busca del tiempo perdido", "Marcel Proust", Category.Fiction);
 
         sc.close();
     }
 
     public static void addNewUser() {
         boolean choice = true;
+        String name = "";
         while (choice) {
             System.out.println("Nombre de usuario: ");
-            String name = sc.nextLine();
-            if (notRepeatName(name) == false) {
+            name = sc.nextLine();
+            if (!notRepeatName(name)) {
                 System.out.println("Nombre de usuario ya en uso, por favor, elija un nombre de usuario nuevo");
             } else {
                 choice = false;
@@ -38,21 +56,23 @@ public class Library {
         String password = sc.nextLine();
 
         Credentials userCredential = null;
-        while (true) {
+        while (userCredential == null) {
             System.out.print("Tipo de usuario (1. Administrador, 2. Básico): ");
-            int choice = Integer.parseInt(sc.nextLine());
-            switch (choice) {
+            int userType = Integer.parseInt(sc.nextLine());
+            switch (userType) {
                 case 1 -> userCredential = Credentials.Admin;
                 case 2 -> userCredential = Credentials.Basic;
                 default -> System.out.println("Opción no válida. Por favor, elija 1 o 2.");
             }
         }
+        User.fullUser(name, password, userCredential);
+        System.out.println("Usuario registrado correctamente.");
 
     }
 
-    public static boolean notRepeatName(String user) {
-        for (int i = 0; i < users.length; i++) {
-            if (users[i].getName().equals(user)) {
+    public static boolean notRepeatName(String userName) {
+        for (User existingUser : User.getUsers()) {
+            if (existingUser != null && existingUser.getName().equals(userName)) {
                 return false;
             }
         }
@@ -71,16 +91,16 @@ public class Library {
      * @return
      */
     public static Boolean login(String loginName, String loginPassword) {
-        for (int i = 0; i < numUsers; i++) {
-            if (users[i].getName().equals(loginName)) {
-                if (users[i].getPassword().equals(loginPassword)) {
+        for (User user : User.getUsers()) {
+            if (user != null && user.getName().equals(loginName)) {
+                if (user.getPassword().equals(loginPassword)) {
                     return true;
                 } else {
-                    System.out.println("Wrong password");
+                    System.out.println("Contraseña incorrecta");
                 }
             }
         }
-        System.out.println("Wrong user name");
+        System.out.println("Nombre de usuario incorrecto");
         return false;
     }
 
@@ -167,21 +187,21 @@ public class Library {
                  case 1-> addNewBook();
                  case 2-> {System.out.print("Posicion del libro a eliminar: "); int position = Integer.parseInt(sc.nextLine()); deleteBook(position); reorganiceBooks();}
                  case 3-> addNewUser();
-                 case 4-> ;
+                 case 4-> break;
                  case 5-> {searchBooks(); printSearchBooks();} //case 5 y case 7 son iguales con el codigo de esta forma
                  case 6-> printBooks();
                  case 7-> {searchBooks(); printSearchBooks();}
-                 case 8->; 
+                 case 8-> break; 
                  case 9-> break;
                  default ->System.out.println("Opción no válida.");
                 }
             }else {
                  switch (choice) {
-                 case 1->
-                 case 2->
+                 case 1-> break;
+                 case 2-> break;
                  case 3-> printBooks();
                  case 4-> {searchBooks(); printSearchBooks();}
-                 case 5-> break;
+                 case 5-> userInfo(user);
                  default -> System.out.println("Opción no válida.");
                 }
             }
@@ -389,6 +409,15 @@ public class Library {
                 books[maxBooks] = null;
             }
         }
+    }
+
+    public static void userInfo(User user) {
+        System.out.println("Información del usuario:");
+        System.out.println("Nombre: " + user.getName());
+        System.out.println("Contraseña: " + user.getPassword());
+        System.out.println("Credenciales: " + user.getCredential());
+        System.out.println("Libros en préstamo: " + user.getBorrowingBooks());
+        System.out.println("Libros prestados: " + user.getBorrowedBooks());
     }
 
 }

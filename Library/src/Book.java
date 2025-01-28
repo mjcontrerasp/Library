@@ -2,7 +2,7 @@ public class Book {
     private String title, author;
     private Category category;
     private Status status;
-    private int sbn;
+    private int ISBM;
 
     public Book() {
         title = "Default";

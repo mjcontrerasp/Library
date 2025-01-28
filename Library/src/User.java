@@ -5,6 +5,9 @@ public class User {
     private Credentials credential;
     private int borrowingBooks;
     private int borrowedBooks;
+    private static User[] users;
+    private static final int maxUser = 50;
+    private static int contUser = 0;
 
     /*
      * Constructor for the User class
@@ -15,7 +18,9 @@ public class User {
         this.borrowingBooks = 0;
         this.borrowedBooks = 0;
         this.credential = Credentials.Basic;
+        this.users = new User[maxUser];
     }
+
     /*
      * Constructor for the User class
      */
@@ -25,7 +30,13 @@ public class User {
         this.password = password;
         this.credential = credential;
     }
-    
+
+    public static void fullUser(String name, String password, Credentials credential) {
+        if (contUser < maxUser) {
+            users[contUser] = new User(name, password, credential);
+            contUser++;
+        }
+    }
 
     public String getName() {
         return name;
@@ -70,5 +81,13 @@ public class User {
 
     public boolean isAdmin() {
         return this.credential == Credentials.Admin;
+    }
+
+    public static User[] getUsers() {
+        return users;
+    }
+
+    public static int getContUsers() {
+        return contUser;
     }
 }
