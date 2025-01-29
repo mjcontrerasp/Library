@@ -41,6 +41,7 @@ public class Library {
         sc.close();
     }
 
+
     /**
      * Method to compress the array of users
      * 
@@ -180,7 +181,8 @@ public class Library {
      * @param user
      */
     public static void menuLibrary(User user) {
-        while (true) {
+        boolean flag = true;
+        while (flag) {
             System.out.println("*****************************");
             System.out.println("*       MENU DE LIBRERIA    *");
             System.out.println("*****************************");
@@ -230,8 +232,8 @@ public class Library {
                  case 10-> showTotalAndCurrentBorrowedBooks();
                  case 11-> showBooksRanking();
                  case 12-> userInfo(maxBorrowedBooksUser());
-                 case 13-> break;
-                 case 14-> break;
+                 case 13-> user.showBorrowingList();
+                 case 14-> flag = false;
                  default ->System.out.println("Opción no válida.");
                 }
             }else {
@@ -240,8 +242,8 @@ public class Library {
                  case 2-> {System.out.print("Posicion del libro que se quiere devolver: "); int position = Integer.parseInt(sc.nextLine()); user.borrowBook(position);}
                  case 3-> printBooks();
                  case 4-> {searchBooks(); printSearchBooks();}
-                 case 6-> user.showBorrowingList();
-                 case 5-> userInfo(user);
+                 case 5-> user.showBorrowingList();
+                 case 6-> flag = false;
                  default -> System.out.println("Opción no válida.");
                 }
             }
@@ -465,7 +467,7 @@ public class Library {
     public static void showTotalAndCurrentBorrowedBooks() {
         System.out.println("Préstamos totales: " + totalBorrowedBooks);
         int totalCurrentBorrowingBooks = 0;
-        for (int i = 0; i < numUsers; i++) {
+        for (int i = 0; i < contUsers; i++) {
             totalCurrentBorrowingBooks += users[i].getBorrowingBooks();
         }
         System.out.println("Préstamos actuales: " + totalCurrentBorrowingBooks);
@@ -473,7 +475,7 @@ public class Library {
 
     public static User maxBorrowedBooksUser() {
         maxBorrowedBooksUser = null;
-        for (int i = 0; i < numUsers; i++) {
+        for (int i = 0; i < contUsers; i++) {
             if (maxBorrowedBooksUser.getBorrowedBooks() < users[i].getBorrowedBooks()) {
                 maxBorrowedBooksUser = users[i];
             }
@@ -496,9 +498,8 @@ public class Library {
             }
             printBook(position1);
         }
-
+        
     }
-
     /*
      * Muestra la informacion del usuario
      */
@@ -522,5 +523,5 @@ public class Library {
             }
         }
 
-    }
+}
 }

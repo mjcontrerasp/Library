@@ -108,7 +108,10 @@ public class User {
             }
         }
     }
+<<<<<<< HEAD
 
     // print user info
     // FALTAAAAAA
+=======
+>>>>>>> origin/DEVELOP
 }
