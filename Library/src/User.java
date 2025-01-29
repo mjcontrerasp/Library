@@ -74,9 +74,7 @@ public class User {
     public boolean isAdmin() {
         return this.credential == Credentials.Admin;
     }
-<<<<<<< HEAD
 
-=======
     //BorrowedBooks ++
     public void addBorrowedBooks(int borrowedBooks) {
         this.borrowedBooks += borrowedBooks;
@@ -113,5 +111,4 @@ public class User {
 
     //print user info
     //FALTAAAAAA
->>>>>>> Main_temporal
 }

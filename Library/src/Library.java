@@ -23,9 +23,9 @@ public class Library {
      * @throws Exception
      */
     public static void main(String[] args) throws Exception {
-        User.fullUser("admin", "1234", Credentials.Admin);
-        User.fullUser("user1", "1234", Credentials.Basic);
-        User.fullUser("user2", "1234", Credentials.Basic);
+        fullUser("admin", "1234", Credentials.Admin);
+        fullUser("user1", "1234", Credentials.Basic);
+        fullUser("user2", "1234", Credentials.Basic);
         menuLogin();
 
         books[0] = new Book("Don Quijote de la Mancha", "Miguel de Cervantes", Category.Fiction);
@@ -85,7 +85,7 @@ public class Library {
                 default -> System.out.println("Opción no válida. Por favor, elija 1 o 2.");
             }
         }
-        fullUser(name, password, userCredential);
+        fullUser(name, password, userCredential); 
         System.out.println("Usuario registrado correctamente.");
 
     }
@@ -190,12 +190,15 @@ public class Library {
                 "3. Registrar usuario\n" +
                 "4. Consultar usuarios\n" +
                 "5. Mostrar libros prestados\n" +
-                "6. Mostrar todos los libros\n" +
-                "7. Buscar libros\n" +
-                "8. Mostrar préstamos totales y actuales\n" +
-                "9. Mostrar libros más prestados\n" +
-                "10. Mostrar usuario con más prestamos activos\n" +
-                "11. Salir"
+                "6. Realizar préstamo\n" +
+                "7. Devolver libro\n" +
+                "8. Mostrar todos los libros\n" +
+                "9. Buscar libros\n" +
+                "10. Mostrar préstamos totales y actuales\n" +
+                "11. Mostrar libros más prestados\n" +
+                "12. Mostrar usuario con más prestamos activos\n" +
+                "13. Mostrar libros para devolver\n" +
+                "14. Salir"
             );
             } else {
                 System.out.println(
@@ -206,10 +209,12 @@ public class Library {
                 "5. Mostrar libros para devolver\n" +
                 "6. Salir"
             );
+            
             }
+            
             System.out.print("Elige una opción: ");
             int choice = Integer.parseInt(sc.nextLine());
-        
+            
             if (user.getCredential() == Credentials.Admin) {
                  switch (choice) {
                  case 1-> addNewBook();
@@ -217,12 +222,15 @@ public class Library {
                  case 3-> addNewUser();
                  case 4-> userSee();
                  case 5-> {searchBooks(); printSearchBooks();} //case 5 y case 7 son iguales con el codigo de esta forma
-                 case 6-> printBooks();
-                 case 7-> {searchBooks(); printSearchBooks();}
-                 case 8-> showTotalAndCurrentBorrowedBooks();
-                 case 9-> break;
-                 case 10-> {maxBorrowedBooksUser(); //print maxBorrowedBookUser info}
-                 case 11-> break;
+                 case 6-> {System.out.print("Posicion del libro que se quiere coger: "); int position = Integer.parseInt(sc.nextLine()); user.borrowBook(position);}
+                 case 7-> {System.out.print("Posicion del libro que se quiere devolver: "); int position = Integer.parseInt(sc.nextLine()); user.borrowBook(position);}
+                 case 8-> printBooks();
+                 case 9-> {searchBooks(); printSearchBooks();
+                 case 10-> showTotalAndCurrentBorrowedBooks();
+                 case 11-> showBooksRanking();
+                 case 12-> userInfo(maxBorrowedBooksUser());
+                 case 13-> break;
+                 case 14-> break;
                  default ->System.out.println("Opción no válida.");
                 }
             }else {

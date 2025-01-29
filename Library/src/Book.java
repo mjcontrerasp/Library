@@ -2,11 +2,8 @@ public class Book {
     private String title, author;
     private Category category;
     private Status status;
-<<<<<<< HEAD
-    private int ISBM;
-=======
+    /* private int ISBM; */ //Aun no lo estamos utilizando
     private int borrowedTimes = 0;
->>>>>>> Main_temporal
 
     public Book() {
         title = "Default";
