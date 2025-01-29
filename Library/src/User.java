@@ -5,7 +5,7 @@ public class User {
     private Credentials credential;
     private int borrowingBooks;
     private int borrowedBooks;
-    private Book [] borrowingList;
+    private Book[] borrowingList;
 
     /*
      * Constructor for the User class
@@ -29,8 +29,6 @@ public class User {
         this.credential = credential;
     }
 
-    
-
     public String getName() {
         return name;
     }
@@ -51,9 +49,10 @@ public class User {
         return borrowedBooks;
     }
 
-    public Book[] getBorrowingList(){
+    public Book[] getBorrowingList() {
         return borrowingList;
     }
+
     // SETTERS
     public void setName(String name) {
         this.name = name;
@@ -74,32 +73,31 @@ public class User {
     public boolean isAdmin() {
         return this.credential == Credentials.Admin;
     }
-<<<<<<< HEAD
 
-=======
-    //BorrowedBooks ++
+    // BorrowedBooks ++
     public void addBorrowedBooks(int borrowedBooks) {
         this.borrowedBooks += borrowedBooks;
     }
-    //Methods
-    public void borrowBook(int bookPosition){
+
+    // Methods
+    public void borrowBook(int bookPosition) {
         Library.books[bookPosition].setStatus(Status.Borrowed);
         Library.books[bookPosition].addBorrowedTimes(1);
-        Library.totalBorrowedBooks ++;
+        Library.totalBorrowedBooks++;
         borrowingList[bookPosition] = Library.books[bookPosition];
         addBorrowedBooks(1);
         setBorrowingBooks(1);
-        System.out.println("\nLibro "+bookPosition+" entregado.");
+        System.out.println("\nLibro " + bookPosition + " entregado.");
     }
 
-    public void returnBook(int bookPosition){
+    public void returnBook(int bookPosition) {
         borrowingList[bookPosition] = null;
         Library.books[bookPosition].setStatus(Status.Available);
         setBorrowingBooks(-1);
-        System.out.println("\nLibro "+bookPosition+" devuelto.");
+        System.out.println("\nLibro " + bookPosition + " devuelto.");
     }
 
-    public void showBorrowingList(){
+    public void showBorrowingList() {
         for (int i = 0; i < Library.numBooks; i++) {
             if (borrowingList[i] != null) {
                 System.out.println("\nLibro: " + i
@@ -110,8 +108,4 @@ public class User {
             }
         }
     }
-
-    //print user info
-    //FALTAAAAAA
->>>>>>> Main_temporal
 }
