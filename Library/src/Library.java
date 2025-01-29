@@ -1,6 +1,5 @@
 import java.util.Scanner;
 
-
 public class Library {
     public static final Scanner sc = new Scanner(System.in);
 
@@ -41,6 +40,7 @@ public class Library {
 
         sc.close();
     }
+
     /**
      * Method to compress the array of users
      * 
@@ -85,7 +85,7 @@ public class Library {
                 default -> System.out.println("Opción no válida. Por favor, elija 1 o 2.");
             }
         }
-        fullUser(name, password, userCredential); 
+        fullUser(name, password, userCredential);
         System.out.println("Usuario registrado correctamente.");
 
     }
@@ -179,7 +179,8 @@ public class Library {
      * @param user
      */
     public static void menuLibrary(User user) {
-        while (true) {
+        boolean flag = true;
+        while (flag) {
             System.out.println("*****************************");
             System.out.println("*       MENU DE LIBRERIA    *");
             System.out.println("*****************************");
@@ -225,12 +226,12 @@ public class Library {
                  case 6-> {System.out.print("Posicion del libro que se quiere coger: "); int position = Integer.parseInt(sc.nextLine()); user.borrowBook(position);}
                  case 7-> {System.out.print("Posicion del libro que se quiere devolver: "); int position = Integer.parseInt(sc.nextLine()); user.borrowBook(position);}
                  case 8-> printBooks();
-                 case 9-> {searchBooks(); printSearchBooks();
+                 case 9-> {searchBooks(); printSearchBooks();}
                  case 10-> showTotalAndCurrentBorrowedBooks();
                  case 11-> showBooksRanking();
                  case 12-> userInfo(maxBorrowedBooksUser());
-                 case 13-> break;
-                 case 14-> break;
+                 case 13-> user.showBorrowingList();
+                 case 14-> flag = false;
                  default ->System.out.println("Opción no válida.");
                 }
             }else {
@@ -239,8 +240,8 @@ public class Library {
                  case 2-> break;
                  case 3-> printBooks();
                  case 4-> {searchBooks(); printSearchBooks();}
-                 case 6-> user.showBorrowingList();
-                 case 5-> userInfo(user);
+                 case 5-> user.showBorrowingList();
+                 case 6-> flag = false;
                  default -> System.out.println("Opción no válida.");
                 }
             }
@@ -423,11 +424,11 @@ public class Library {
 
     // Muestra 1 libro del array books
     public static void printBook(int position) {
-            System.out.println("\nLibro: " + position
-                    + "\nTitulo: " + books[position].getTitle()
-                    + "\nAutor:" + books[position].getTitle()
-                    + "\nCategoria:" + books[position].getCategory()
-                    + "\nEstado:" + books[position].getStatus());
+        System.out.println("\nLibro: " + position
+                + "\nTitulo: " + books[position].getTitle()
+                + "\nAutor:" + books[position].getTitle()
+                + "\nCategoria:" + books[position].getCategory()
+                + "\nEstado:" + books[position].getStatus());
     }
 
     // Muestra todos los libros del array books
@@ -464,7 +465,7 @@ public class Library {
     public static void showTotalAndCurrentBorrowedBooks() {
         System.out.println("Préstamos totales: " + totalBorrowedBooks);
         int totalCurrentBorrowingBooks = 0;
-        for (int i = 0; i < numUsers; i++) {
+        for (int i = 0; i < contUsers; i++) {
             totalCurrentBorrowingBooks += users[i].getBorrowingBooks();
         }
         System.out.println("Préstamos actuales: " + totalCurrentBorrowingBooks);
@@ -472,7 +473,7 @@ public class Library {
 
     public static User maxBorrowedBooksUser() {
         maxBorrowedBooksUser = null;
-        for (int i = 0; i < numUsers; i++) {
+        for (int i = 0; i < contUsers; i++) {
             if (maxBorrowedBooksUser.getBorrowedBooks() < users[i].getBorrowedBooks()) {
                 maxBorrowedBooksUser = users[i];
             }
@@ -480,9 +481,9 @@ public class Library {
         return maxBorrowedBooksUser;
     }
 
-    //FALTAAAAA. De momento solo muestro 1 libro, quiero mostrar 3.
+    // FALTAAAAA. De momento solo muestro 1 libro, quiero mostrar 3.
     public static void showBooksRanking() {
-        int position1=0; //position2, position3;
+        int position1 = 0; // position2, position3;
         int maxBorrowedTimes = 0;
         if (numBooks < numBooksRanking) {
             System.out.println("\nLibros insuficientes para hacer ranking,"
@@ -495,8 +496,9 @@ public class Library {
             }
             printBook(position1);
         }
-        
+
     }
+
     /*
      * Muestra la informacion del usuario
      */
@@ -512,7 +514,7 @@ public class Library {
     /*
      * Muestra la informacion de todos los usuarios
      */
-    public static void userSee(){
+    public static void userSee() {
         for (int i = 0; i < contUsers; i++) {
             User user = users[i];
             if (user != null) {
@@ -525,5 +527,5 @@ public class Library {
             }
         }
 
-}
+    }
 }
