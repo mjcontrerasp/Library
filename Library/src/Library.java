@@ -4,9 +4,9 @@ import java.util.Scanner;
 public class Library {
     public static final Scanner sc = new Scanner(System.in);
 
-    // public static int numUsers = 0;
-    // public static int maxUsers = 50;
-    // public static User[] users = new User[maxUsers];
+    public static int contUsers = 0;
+    public static int maxUsers = 50;
+    public static User[] users = new User[maxUsers];
     public static int maxBooks = 60;
     public static Book[] books = new Book[maxBooks];
     public static int numBooks = 0;
@@ -38,7 +38,25 @@ public class Library {
 
         sc.close();
     }
+    /**
+     * Method to compress the array of users
+     * 
+     * @param name
+     * @param password
+     * @param credential
+     */
+    public static void fullUser(String name, String password, Credentials credential) {
+        if (contUsers < maxUsers) {
+            users[contUsers] = new User(name, password, credential);
+            contUsers++;
+        }
+    }
 
+    /**
+     * Method to show the user information
+     * 
+     * @param user
+     */
     public static void addNewUser() {
         boolean choice = true;
         String name = "";
@@ -64,14 +82,19 @@ public class Library {
                 default -> System.out.println("Opción no válida. Por favor, elija 1 o 2.");
             }
         }
-        User.fullUser(name, password, userCredential);
+        fullUser(name, password, userCredential);
         System.out.println("Usuario registrado correctamente.");
 
     }
 
+    /**
+     * Method to show repated name
+     * 
+     * @param user
+     */
     public static boolean notRepeatName(String userName) {
-        for (User existingUser : User.getUsers()) {
-            if (existingUser != null && existingUser.getName().equals(userName)) {
+        for (int i = 0; i < contUsers; i++) {
+            if (users[i].getName().equals(userName)) {
                 return false;
             }
         }
@@ -90,9 +113,9 @@ public class Library {
      * @return
      */
     public static Boolean login(String loginName, String loginPassword) {
-        for (User user : User.getUsers()) {
-            if (user != null && user.getName().equals(loginName)) {
-                if (user.getPassword().equals(loginPassword)) {
+        for (int i = 0; i < contUsers; i++) {
+            if (users[i].getName().equals(loginName)) {
+                if (users[i].getPassword().equals(loginPassword)) {
                     return true;
                 } else {
                     System.out.println("Contraseña incorrecta");
@@ -126,9 +149,9 @@ public class Library {
                     String loginPassword = sc.nextLine();
                     if (login(loginName, loginPassword)) {
                         User user = null;
-                        for (int i = 0; i < User.getContUsers(); i++) {
-                            if (User.getUsers()[i].getName().equals(loginName)) {
-                                user = User.getUsers()[i];
+                        for (int i = 0; i < contUsers; i++) {
+                            if (users[i].getName().equals(loginName)) {
+                                user = users[i];
                                 break;
                             }
                         }
@@ -426,8 +449,8 @@ public class Library {
      * Muestra la informacion de todos los usuarios
      */
     public static void userSee(){
-        for (int i = 0; i < User.getContUsers(); i++) {
-            User user = User.getUsers()[i];
+        for (int i = 0; i < contUsers; i++) {
+            User user = users[i];
             if (user != null) {
                 System.out.println("Nombre: " + user.getName());
                 System.out.println("Contraseña: " + user.getPassword());
