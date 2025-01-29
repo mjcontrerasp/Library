@@ -236,8 +236,8 @@ public class Library {
                 }
             }else {
                  switch (choice) {
-                 case 1-> break;
-                 case 2-> break;
+                 case 1-> {System.out.print("Posicion del libro que se quiere coger: "); int position = Integer.parseInt(sc.nextLine()); user.borrowBook(position);}
+                 case 2-> {System.out.print("Posicion del libro que se quiere devolver: "); int position = Integer.parseInt(sc.nextLine()); user.borrowBook(position);}
                  case 3-> printBooks();
                  case 4-> {searchBooks(); printSearchBooks();}
                  case 5-> user.showBorrowingList();
