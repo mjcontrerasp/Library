@@ -25,8 +25,7 @@ public class Library {
         fullUser("admin", "1234", Credentials.Admin);
         fullUser("user1", "1234", Credentials.Basic);
         fullUser("user2", "1234", Credentials.Basic);
-        menuLogin();
-
+        
         books[0] = new Book("Don Quijote de la Mancha", "Miguel de Cervantes", Category.Fiction);
         books[1] = new Book("Cien años de soledad", "Gabriel García Márquez", Category.Fiction);
         books[2] = new Book("1984", "George Orwell", Category.Science);
@@ -38,9 +37,10 @@ public class Library {
         books[8] = new Book("El Hobbit", "J.R.R. Tolkien", Category.Fiction);
         books[9] = new Book("En busca del tiempo perdido", "Marcel Proust", Category.Fiction);
 
+        menuLogin();
+
         sc.close();
     }
-
 
     /**
      * Method to compress the array of users
@@ -188,63 +188,91 @@ public class Library {
             System.out.println("*****************************");
             if (user.getCredential() == Credentials.Admin) {
                 System.out.println(
-                "1. Agregar libro\n" +
-                "2. Eliminar libro\n" +
-                "3. Registrar usuario\n" +
-                "4. Consultar usuarios\n" +
-                "5. Mostrar libros prestados\n" +
-                "6. Realizar préstamo\n" +
-                "7. Devolver libro\n" +
-                "8. Mostrar todos los libros\n" +
-                "9. Buscar libros\n" +
-                "10. Mostrar préstamos totales y actuales\n" +
-                "11. Mostrar libros más prestados\n" +
-                "12. Mostrar usuario con más prestamos activos\n" +
-                "13. Mostrar libros para devolver\n" +
-                "14. Salir"
-            );
+                        "1. Agregar libro\n" +
+                                "2. Eliminar libro\n" +
+                                "3. Registrar usuario\n" +
+                                "4. Consultar usuarios\n" +
+                                "5. Mostrar libros prestados\n" +
+                                "6. Realizar préstamo\n" +
+                                "7. Devolver libro\n" +
+                                "8. Mostrar todos los libros\n" +
+                                "9. Buscar libros\n" +
+                                "10. Mostrar préstamos totales y actuales\n" +
+                                "11. Mostrar libros más prestados\n" +
+                                "12. Mostrar usuario con más prestamos activos\n" +
+                                "13. Mostrar libros para devolver\n" +
+                                "14. Salir");
             } else {
                 System.out.println(
-                "1. Realizar préstamo\n" +
-                "2. Devolver libro\n" +
-                "3. Mostrar todos los libros\n" +
-                "4. Buscar libros\n" +
-                "5. Mostrar libros para devolver\n" +
-                "6. Salir"
-            );
-            
+                        "1. Realizar préstamo\n" +
+                                "2. Devolver libro\n" +
+                                "3. Mostrar todos los libros\n" +
+                                "4. Buscar libros\n" +
+                                "5. Mostrar libros para devolver\n" +
+                                "6. Salir");
+
             }
-            
+
             System.out.print("Elige una opción: ");
             int choice = Integer.parseInt(sc.nextLine());
-            
+
             if (user.getCredential() == Credentials.Admin) {
-                 switch (choice) {
-                 case 1-> addNewBook();
-                 case 2-> {System.out.print("Posicion del libro a eliminar: "); int position = Integer.parseInt(sc.nextLine()); deleteBook(position); reorganiceBooks();}
-                 case 3-> addNewUser();
-                 case 4-> userSee();
-                 case 5-> {searchBooks(); printSearchBooks();} //case 5 y case 7 son iguales con el codigo de esta forma
-                 case 6-> {System.out.print("Posicion del libro que se quiere coger: "); int position = Integer.parseInt(sc.nextLine()); user.borrowBook(position);}
-                 case 7-> {System.out.print("Posicion del libro que se quiere devolver: "); int position = Integer.parseInt(sc.nextLine()); user.borrowBook(position);}
-                 case 8-> printBooks();
-                 case 9-> {searchBooks(); printSearchBooks();}
-                 case 10-> showTotalAndCurrentBorrowedBooks();
-                 case 11-> showBooksRanking();
-                 case 12-> userInfo(maxBorrowedBooksUser());
-                 case 13-> user.showBorrowingList();
-                 case 14-> flag = false;
-                 default ->System.out.println("Opción no válida.");
+                switch (choice) {
+                    case 1 -> addNewBook();
+                    case 2 -> {
+                        System.out.print("Posicion del libro a eliminar: ");
+                        int position = Integer.parseInt(sc.nextLine());
+                        deleteBook(position);
+                        reorganiceBooks();
+                    }
+                    case 3 -> addNewUser();
+                    case 4 -> userSee();
+                    case 5 -> {
+                        searchBooks();
+                        printSearchBooks();
+                    } // case 5 y case 7 son iguales con el codigo de esta forma
+                    case 6 -> {
+                        System.out.print("Posicion del libro que se quiere coger: ");
+                        int position = Integer.parseInt(sc.nextLine());
+                        user.borrowBook(position);
+                    }
+                    case 7 -> {
+                        System.out.print("Posicion del libro que se quiere devolver: ");
+                        int position = Integer.parseInt(sc.nextLine());
+                        user.borrowBook(position);
+                    }
+                    case 8 -> printBooks();
+                    case 9 -> {
+                        searchBooks();
+                        printSearchBooks();
+                    }
+                    case 10 -> showTotalAndCurrentBorrowedBooks();
+                    case 11 -> showBooksRanking();
+                    case 12 -> userInfo(maxBorrowedBooksUser());
+                    case 13 -> user.showBorrowingList();
+                    case 14 -> flag = false;
+                    default -> System.out.println("Opción no válida.");
                 }
-            }else {
-                 switch (choice) {
-                 case 1-> {System.out.print("Posicion del libro que se quiere coger: "); int position = Integer.parseInt(sc.nextLine()); user.borrowBook(position);}
-                 case 2-> {System.out.print("Posicion del libro que se quiere devolver: "); int position = Integer.parseInt(sc.nextLine()); user.borrowBook(position);}
-                 case 3-> printBooks();
-                 case 4-> {searchBooks(); printSearchBooks();}
-                 case 5-> user.showBorrowingList();
-                 case 6-> flag = false;
-                 default -> System.out.println("Opción no válida.");
+            } else {
+                switch (choice) {
+                    case 1 -> {
+                        System.out.print("Posicion del libro que se quiere coger: ");
+                        int position = Integer.parseInt(sc.nextLine());
+                        user.borrowBook(position);
+                    }
+                    case 2 -> {
+                        System.out.print("Posicion del libro que se quiere devolver: ");
+                        int position = Integer.parseInt(sc.nextLine());
+                        user.borrowBook(position);
+                    }
+                    case 3 -> printBooks();
+                    case 4 -> {
+                        searchBooks();
+                        printSearchBooks();
+                    }
+                    case 5 -> user.showBorrowingList();
+                    case 6 -> flag = false;
+                    default -> System.out.println("Opción no válida.");
                 }
             }
         }
@@ -498,8 +526,9 @@ public class Library {
             }
             printBook(position1);
         }
-        
+
     }
+
     /*
      * Muestra la informacion del usuario
      */
@@ -523,5 +552,5 @@ public class Library {
             }
         }
 
-}
+    }
 }
