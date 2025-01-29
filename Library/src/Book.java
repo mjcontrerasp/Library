@@ -2,13 +2,18 @@ public class Book {
     private String title, author;
     private Category category;
     private Status status;
+<<<<<<< HEAD
     private int ISBM;
+=======
+    private int borrowedTimes = 0;
+>>>>>>> Main_temporal
 
     public Book() {
         title = "Default";
         author = "Default";
         category = Category.Default;
         status = Status.Available;
+        borrowedTimes = 0;
     }
 
     public Book(String title, String author, Category category){
@@ -34,6 +39,10 @@ public class Book {
         return status;
     }
 
+    public int getBorrowedTimes(){
+        return borrowedTimes;
+    }
+
     //SETTERS
     public void setTitle(String title) {
         this.title = title;
@@ -50,4 +59,10 @@ public class Book {
     public void setStatus(Status status) {
         this.status = status;
     }
+
+    //BorrowedTimes ++
+    public void addBorrowedTimes(int num){
+        this.borrowedTimes += num;
+    }
+
 }
