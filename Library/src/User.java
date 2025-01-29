@@ -18,6 +18,7 @@ public class User {
         this.credential = Credentials.Basic;
         this.borrowingList = null;
     }
+
     /*
      * Constructor for the User class
      */
@@ -27,6 +28,7 @@ public class User {
         this.password = password;
         this.credential = credential;
     }
+
     
 
     public String getName() {
@@ -72,6 +74,9 @@ public class User {
     public boolean isAdmin() {
         return this.credential == Credentials.Admin;
     }
+<<<<<<< HEAD
+
+=======
     //BorrowedBooks ++
     public void addBorrowedBooks(int borrowedBooks) {
         this.borrowedBooks += borrowedBooks;
@@ -108,4 +113,5 @@ public class User {
 
     //print user info
     //FALTAAAAAA
+>>>>>>> Main_temporal
 }
