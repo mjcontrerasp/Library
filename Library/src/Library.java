@@ -41,6 +41,7 @@ public class Library {
         sc.close();
     }
 
+
     /**
      * Method to compress the array of users
      * 
@@ -52,6 +53,9 @@ public class Library {
         if (contUsers < maxUsers) {
             users[contUsers] = new User(name, password, credential);
             contUsers++;
+            System.out.println("Usuario registrado correctamente.");
+        } else {
+            System.out.println("No se pueden registrar más usuarios.");
         }
     }
 
@@ -86,8 +90,6 @@ public class Library {
             }
         }
         fullUser(name, password, userCredential);
-        System.out.println("Usuario registrado correctamente.");
-
     }
 
     /**
@@ -260,13 +262,13 @@ public class Library {
         do {
             flag = false;
             System.out.println(
-                    "\n1- Fiction"
+                    "\n1- Ficción"
                             + "\n2- NonFiction"
-                            + "\n3- Educational"
-                            + "\n4- Science"
-                            + "\n5- Philosophy"
-                            + "\n6- Business"
-                            + "\n7- ChildrenBook"
+                            + "\n3- Educacional"
+                            + "\n4- Ciencia"
+                            + "\n5- Filosofia"
+                            + "\n6- Negocios"
+                            + "\n7- Libro infantil"
                             + "\n8- Default");
             System.out.print("Elije una opcion: ");
             int opcion = Integer.parseInt(sc.nextLine());
@@ -496,9 +498,8 @@ public class Library {
             }
             printBook(position1);
         }
-
+        
     }
-
     /*
      * Muestra la informacion del usuario
      */
@@ -518,14 +519,9 @@ public class Library {
         for (int i = 0; i < contUsers; i++) {
             User user = users[i];
             if (user != null) {
-                System.out.println("Nombre: " + user.getName());
-                System.out.println("Contraseña: " + user.getPassword());
-                System.out.println("Credenciales: " + user.getCredential());
-                System.out.println("Libros en préstamo: " + user.getBorrowingBooks());
-                System.out.println("Libros prestados: " + user.getBorrowedBooks());
-                System.out.println("------------------------------");
+                userInfo(user);
             }
         }
 
-    }
+}
 }
