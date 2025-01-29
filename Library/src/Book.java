@@ -2,7 +2,7 @@ public class Book {
     private String title, author;
     private Category category;
     private Status status;
-    /* private int ISBM; */ //Aun no lo estamos utilizando
+    /* private int ISBM; */ // Aun no lo estamos utilizando
     private int borrowedTimes = 0;
 
     public Book() {
@@ -13,13 +13,14 @@ public class Book {
         borrowedTimes = 0;
     }
 
-    public Book(String title, String author, Category category){
+    public Book(String title, String author, Category category) {
         this();
         this.title = title;
         this.author = author;
         this.category = category;
     }
-    //GETTERS
+
+    // GETTERS
     public String getTitle() {
         return title;
     }
@@ -36,11 +37,11 @@ public class Book {
         return status;
     }
 
-    public int getBorrowedTimes(){
+    public int getBorrowedTimes() {
         return borrowedTimes;
     }
 
-    //SETTERS
+    // SETTERS
     public void setTitle(String title) {
         this.title = title;
     }
@@ -57,8 +58,8 @@ public class Book {
         this.status = status;
     }
 
-    //BorrowedTimes ++
-    public void addBorrowedTimes(int num){
+    // BorrowedTimes ++
+    public void addBorrowedTimes(int num) {
         this.borrowedTimes += num;
     }
 
