@@ -16,7 +16,7 @@ public class User {
         this.borrowingBooks = 0;
         this.borrowedBooks = 0;
         this.credential = Credentials.Basic;
-        this.borrowingList = null;
+        this.borrowingList = new Book[Library.numBooks];
     }
 
     /*
