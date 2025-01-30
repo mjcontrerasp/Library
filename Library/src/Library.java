@@ -8,7 +8,7 @@ public class Library {
     public static User[] users = new User[maxUsers];
     public static int maxBooks = 60;
     public static Book[] books = new Book[maxBooks];
-    public static int numBooks = 10;
+    public static int numBooks = 0;
     public static Book[] searchBooks = new Book[maxBooks]; // Array temporal para buscar libros
     public static int numSearchBooks = 0;
     public static int totalBorrowedBooks = 0;
