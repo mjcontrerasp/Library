@@ -8,7 +8,7 @@ public class Library {
     public static User[] users = new User[maxUsers];
     public static int maxBooks = 60;
     public static Book[] books = new Book[maxBooks];
-    public static int numBooks = 10;
+    public static int numBooks = 0;
     public static Book[] searchBooks = new Book[maxBooks]; // Array temporal para buscar libros
     public static int numSearchBooks = 0;
     public static int totalBorrowedBooks = 0;
@@ -27,12 +27,12 @@ public class Library {
         fullUser("user2", "1234", Credentials.Basic);
 
         books[0] = new Book("Don Quijote de la Mancha", "Miguel de Cervantes", Category.Fiction);
-        books[1] = new Book("Cien años de soledad", "Gabriel García Márquez", Category.Fiction);
+        books[1] = new Book("Cien años de soledad", "Gabriel García Márquez", Category.NonFiction);
         books[2] = new Book("1984", "George Orwell", Category.Science);
-        books[3] = new Book("Orgullo y prejuicio", "Jane Austen", Category.Fiction);
-        books[4] = new Book("El gran Gatsby", "F. Scott Fitzgerald", Category.Fiction);
+        books[3] = new Book("Orgullo y prejuicio", "Jane Austen", Category.Educational);
+        books[4] = new Book("El gran Gatsby", "F. Scott Fitzgerald", Category.Philosophy);
         books[5] = new Book("Matar a un ruiseñor", "Harper Lee", Category.Fiction);
-        books[6] = new Book("Crimen y castigo", "Fiódor Dostoyevski", Category.Fiction);
+        books[6] = new Book("Crimen y castigo", "Fiódor Dostoyevski", Category.ChildrenBook);
         books[7] = new Book("Harry Potter y la piedra filosofal", "J.K. Rowling", Category.Fiction);
         books[8] = new Book("El Hobbit", "J.R.R. Tolkien", Category.Fiction);
         books[9] = new Book("En busca del tiempo perdido", "Marcel Proust", Category.Fiction);
@@ -108,6 +108,20 @@ public class Library {
     }
 
     /**
+     * Method to show repated title
+     * 
+     * @param user
+     */
+    public static boolean notRepeatTitle(String bookTitle) {
+        for (int i = 0; i < maxBooks; i++) {
+            if (books[i].getTitle().equals(bookTitle)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
      * Method to comproved credenthial to login
      * 
      * @param name
@@ -124,11 +138,12 @@ public class Library {
                 if (users[i].getPassword().equals(loginPassword)) {
                     return true;
                 } else {
-                    System.out.println("Contraseña incorrecta");
+                    System.out.println("\nContraseña incorrecta");
+                    return false;
                 }
             }
         }
-        System.out.println("Nombre de usuario incorrecto");
+        System.out.println("\nNombre de usuario incorrecto");
         return false;
     }
 
@@ -225,7 +240,7 @@ public class Library {
                         System.out.print("\nPosicion del libro a eliminar: ");
                         int position = Integer.parseInt(sc.nextLine());
                         deleteBook(position);
-                        reorganiceBooks();
+                        /* reorganiceBooks(); */ // No la utilizamos por ahora
                     }
                     case 3 -> addNewUser();
                     case 4 -> userSee();
@@ -234,11 +249,13 @@ public class Library {
                         printSearchBooks();
                     } // case 5 y case 7 son iguales con el codigo de esta forma
                     case 6 -> {
+                        printBooks();
                         System.out.print("\nPosicion del libro que se quiere coger: ");
                         int position = Integer.parseInt(sc.nextLine());
                         user.borrowBook(position);
                     }
                     case 7 -> {
+                        user.showBorrowingList();
                         System.out.print("\nPosicion del libro que se quiere devolver: ");
                         int position = Integer.parseInt(sc.nextLine());
                         user.returnBook(position);
@@ -258,11 +275,13 @@ public class Library {
             } else {
                 switch (choice) {
                     case 1 -> {
+                        printBooks();
                         System.out.print("\nPosicion del libro que se quiere coger: ");
                         int position = Integer.parseInt(sc.nextLine());
                         user.borrowBook(position);
                     }
                     case 2 -> {
+                        user.showBorrowingList();
                         System.out.print("\nPosicion del libro que se quiere devolver: ");
                         int position = Integer.parseInt(sc.nextLine());
                         user.returnBook(position);
@@ -359,16 +378,23 @@ public class Library {
             System.out.println("\nBiblioteca llena.");
         } else {
             // Introduccion de parametros
-            System.out.print("Titulo: ");
-            String title = sc.nextLine();
+            String title;
+            do{
+                System.out.print("Titulo: ");
+                title = sc.nextLine();
+            }while (!notRepeatName(title));
             System.out.print("Autor: ");
             String author = sc.nextLine();
             Category category = menuCategory();
-            // Añade libro
-            books[numBooks] = new Book(title, author, category);
-            System.out.println("\nLibro añadido a posicion " + numBooks);
-            numBooks++;
-
+            // Añade libro a primera posicion libre
+            for (int i = 0; i < maxBooks; i++) {
+                if (books[i] == null) {
+                    books[i] = new Book(title, author, category);
+                    System.out.println("\nLibro añadido a posicion " + i);
+                    numBooks++;
+                    break;
+                }
+            }
         }
     }
 
@@ -377,7 +403,7 @@ public class Library {
      */
     public static void searchBooks() {
         // Borrar array temporal de busqueda de libros
-        for (int i = 0; i < numBooks; i++) {
+        for (int i = 0; i < maxBooks; i++) {
             searchBooks[i] = null;
         }
         // Resetear contador numSearchBooks
@@ -396,38 +422,46 @@ public class Library {
                 case 1 -> {
                     System.out.print("\nTiulo: ");
                     String title = sc.nextLine();
-                    for (int i = 0; i < numBooks; i++) {
-                        if (books[i].getTitle().equals(title)) {
-                            searchBooks[i] = books[i];
-                            numSearchBooks++;
+                    for (int i = 0; i < maxBooks; i++) {
+                        if (books[i] != null) {
+                            if (books[i].getTitle().equals(title)) {
+                                searchBooks[i] = books[i];
+                                numSearchBooks++;
+                            }
                         }
                     }
                 }
                 case 2 -> {
                     System.out.print("\nAutor: ");
                     String author = sc.nextLine();
-                    for (int i = 0; i < numBooks; i++) {
-                        if (books[i].getAuthor().equals(author)) {
-                            searchBooks[i] = books[i];
-                            numSearchBooks++;
+                    for (int i = 0; i < maxBooks; i++) {
+                        if (books[i] != null) {
+                            if (books[i].getAuthor().equals(author)) {
+                                searchBooks[i] = books[i];
+                                numSearchBooks++;
+                            }
                         }
                     }
                 }
                 case 3 -> {
                     Category category = menuCategory();
-                    for (int i = 0; i < numBooks; i++) {
-                        if (books[i].getCategory() == category) {
-                            searchBooks[i] = books[i];
-                            numSearchBooks++;
+                    for (int i = 0; i < maxBooks; i++) {
+                        if (books[i] != null) {
+                            if (books[i].getCategory() == category) {
+                                searchBooks[i] = books[i];
+                                numSearchBooks++;
+                            }
                         }
                     }
                 }
                 case 4 -> {
                     Status status = menuStatus();
-                    for (int i = 0; i < numBooks; i++) {
-                        if (books[i].getStatus() == status) {
-                            searchBooks[i] = books[i];
-                            numSearchBooks++;
+                    for (int i = 0; i < maxBooks; i++) {
+                        if (books[i] != null) {
+                            if (books[i].getStatus() == status) {
+                                searchBooks[i] = books[i];
+                                numSearchBooks++;
+                            }
                         }
                     }
                 }
@@ -442,11 +476,11 @@ public class Library {
 
     // Muestra todos los libros del array searchBooks
     public static void printSearchBooks() {
-        for (int i = 0; i < numBooks; i++) {
+        for (int i = 0; i < maxBooks; i++) {
             if (searchBooks[i] != null) {
                 System.out.println("\nLibro: " + i
                         + "\nTitulo: " + searchBooks[i].getTitle()
-                        + "\nAutor: " + searchBooks[i].getTitle()
+                        + "\nAutor: " + searchBooks[i].getAuthor()
                         + "\nCategoria: " + searchBooks[i].getCategory()
                         + "\nEstado: " + searchBooks[i].getStatus());
             }
@@ -455,43 +489,58 @@ public class Library {
 
     // Muestra 1 libro del array books
     public static void printBook(int position) {
-        System.out.println("\nLibro: " + position
-                + "\nTitulo: " + books[position].getTitle()
-                + "\nAutor:" + books[position].getTitle()
-                + "\nCategoria:" + books[position].getCategory()
-                + "\nEstado:" + books[position].getStatus());
+        if (books[position] != null) {
+            System.out.println("\nLibro: " + position
+                    + "\nTitulo: " + books[position].getTitle()
+                    + "\nAutor:" + books[position].getAuthor()
+                    + "\nCategoria:" + books[position].getCategory()
+                    + "\nEstado:" + books[position].getStatus());
+        }
     }
 
     // Muestra todos los libros del array books
     public static void printBooks() {
-        for (int i = 0; i < numBooks; i++) {
-            System.out.println("\nLibro: " + i
-                    + "\nTitulo: " + books[i].getTitle()
-                    + "\nAutor: " + books[i].getTitle()
-                    + "\nCategoria: " + books[i].getCategory()
-                    + "\nEstado: " + books[i].getStatus());
+        for (int i = 0; i < maxBooks; i++) {
+            if (books[i] != null) {
+                System.out.println("\nLibro: " + i
+                        + "\nTitulo: " + books[i].getTitle()
+                        + "\nAutor: " + books[i].getAuthor()
+                        + "\nCategoria: " + books[i].getCategory()
+                        + "\nEstado: " + books[i].getStatus());
+            }
         }
     }
 
     // Elimina un libro
     public static void deleteBook(int position) {
-        books[position] = null;
-        numBooks--;
-        System.out.println("\nLibro " + position + " eliminado.");
+        if (books[position] != null) {
+            if (books[position].getStatus() == Status.Available) {
+                books[position] = null;
+                numBooks--;
+                System.out.println("\nLibro " + position + " eliminado.");
+            } else {
+                System.out.println("\nLibro en préstamo, se tiene que devolver antes de eliminar de la biblioteca.");
+            }
+        } else {
+            System.out.println("\nLibro no encontrado.");
+        }
+
     }
 
-    // Reorganiza books[] para que no haya huecos
-    public static void reorganiceBooks() {
-        for (int i = 0; i < maxBooks; i++) {
-            if (books[i] == null) {
-                for (int j = i; j < maxBooks - 1; j++) {
-                    books[i] = books[i + 1];
-                }
-                books[maxBooks-1] = null;
-            }
-        }
-        System.out.println("\nLibrería reorganizada.");
-    }
+    // Reorganiza books[] para que no haya huecos //Eliminada de momento
+    /*
+     * public static void reorganiceBooks() {
+     * for (int i = 0; i < maxBooks; i++) {
+     * if (books[i] == null) {
+     * for (int j = i; j < maxBooks - 1; j++) {
+     * books[i] = books[i + 1];
+     * }
+     * books[maxBooks-1] = null;
+     * }
+     * }
+     * System.out.println("\nLibrería reorganizada.");
+     * }
+     */
 
     public static void showTotalAndCurrentBorrowedBooks() {
         System.out.println("\nPréstamos totales: " + totalBorrowedBooks);
@@ -506,34 +555,43 @@ public class Library {
         if (contUsers == 0) {
             return null;
         }
-    
+
         User maxBorrowedBooksUser = users[0];
-    
+
         for (int i = 1; i < contUsers; i++) {
             if (maxBorrowedBooksUser.getBorrowedBooks() < users[i].getBorrowedBooks()) {
                 maxBorrowedBooksUser = users[i];
             }
         }
-    
+
         return maxBorrowedBooksUser;
     }
 
-    // FALTAAAAA. De momento solo muestro 1 libro, quiero mostrar 3.
+    // Libro más prestado
     public static void showBooksRanking() {
-        int position1 = 0; // position2, position3;
+        int position = 0; // position2, position3;
         int maxBorrowedTimes = 0;
-        if (numBooks < numBooksRanking) {
-            System.out.println("\nLibros insuficientes para hacer ranking,"
-                    + "solo hay " + numBooks + ", se necesitan al menos " + numBooksRanking);
-        } else {
-            for (int i = 0; i < numBooks; i++) {
-                if (maxBorrowedTimes <= books[i].getBorrowedTimes()) {
-                    position1 = i;
+        boolean zeroLoans = true;
+        /*
+         * if (numBooks < numBooksRanking) {
+         * System.out.println("\nLibros insuficientes para hacer ranking,"
+         * + "solo hay " + numBooks + ", se necesitan al menos " + numBooksRanking);
+         * } else {
+         */
+        for (int i = 0; i < maxBooks; i++) {
+            if (books[i] != null) {
+                if (maxBorrowedTimes < books[i].getBorrowedTimes()) {
+                    maxBorrowedTimes = books[i].getBorrowedTimes();
+                    position = i;
+                    zeroLoans = false;
                 }
             }
-            printBook(position1);
         }
-
+        if (zeroLoans) {
+            System.out.println("\nAun no se ha realizado ningún préstamo.");
+        } else {
+            printBook(position);
+        }
     }
 
     /*
@@ -542,7 +600,6 @@ public class Library {
     public static void userInfo(User user) {
         System.out.println("\nInformación del usuario:");
         System.out.println("Nombre: " + user.getName());
-        System.out.println("Contraseña: " + user.getPassword());
         System.out.println("Credenciales: " + user.getCredential());
         System.out.println("Libros en préstamo: " + user.getBorrowingBooks());
         System.out.println("Libros prestados: " + user.getBorrowedBooks());
