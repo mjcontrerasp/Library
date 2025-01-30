@@ -8,7 +8,7 @@ public class Library {
     public static User[] users = new User[maxUsers];
     public static int maxBooks = 60;
     public static Book[] books = new Book[maxBooks];
-    public static int numBooks = 0;
+    public static int numBooks = 10;
     public static Book[] searchBooks = new Book[maxBooks]; // Array temporal para buscar libros
     public static int numSearchBooks = 0;
     public static int totalBorrowedBooks = 0;
@@ -168,7 +168,7 @@ public class Library {
                     }
                     break;
                 case 2:
-                    System.out.println("\nSaliendo del programa.");
+                    System.out.println("Saliendo del programa.");
                     flag = false;
                 default:
                     System.out.println("\nOpción no válida, por favor intenta de nuevo.");
@@ -503,12 +503,18 @@ public class Library {
     }
 
     public static User maxBorrowedBooksUser() {
-        maxBorrowedBooksUser = null;
-        for (int i = 0; i < contUsers; i++) {
+        if (contUsers == 0) {
+            return null;
+        }
+    
+        User maxBorrowedBooksUser = users[0];
+    
+        for (int i = 1; i < contUsers; i++) {
             if (maxBorrowedBooksUser.getBorrowedBooks() < users[i].getBorrowedBooks()) {
                 maxBorrowedBooksUser = users[i];
             }
         }
+    
         return maxBorrowedBooksUser;
     }
 
