@@ -5,7 +5,7 @@ public class User {
     private Credentials credential;
     private int borrowingBooks;
     private int borrowedBooks;
-    private Book [] borrowingList;
+    private Book[] borrowingList;
 
     /*
      * Constructor for the User class
@@ -16,8 +16,9 @@ public class User {
         this.borrowingBooks = 0;
         this.borrowedBooks = 0;
         this.credential = Credentials.Basic;
-        this.borrowingList = null;
+        this.borrowingList = new Book[Library.maxBooks];
     }
+
     /*
      * Constructor for the User class
      */
@@ -27,7 +28,6 @@ public class User {
         this.password = password;
         this.credential = credential;
     }
-    
 
     public String getName() {
         return name;
@@ -49,9 +49,10 @@ public class User {
         return borrowedBooks;
     }
 
-    public Book[] getBorrowingList(){
+    public Book[] getBorrowingList() {
         return borrowingList;
     }
+
     // SETTERS
     public void setName(String name) {
         this.name = name;
@@ -65,47 +66,62 @@ public class User {
         this.credential = credential;
     }
 
-    public void setBorrowingBooks(int borrowingBooks) {
-        this.borrowingBooks = borrowingBooks;
+    public void addBorrowingBooks(int num) {
+        this.borrowingBooks += num;
     }
 
     public boolean isAdmin() {
         return this.credential == Credentials.Admin;
     }
-    //BorrowedBooks ++
-    public void addBorrowedBooks(int borrowedBooks) {
-        this.borrowedBooks += borrowedBooks;
-    }
-    //Methods
-    public void borrowBook(int bookPosition){
-        Library.books[bookPosition].setStatus(Status.Borrowed);
-        Library.books[bookPosition].addBorrowedTimes(1);
-        Library.totalBorrowedBooks ++;
-        borrowingList[bookPosition] = Library.books[bookPosition];
-        addBorrowedBooks(1);
-        setBorrowingBooks(1);
-        System.out.println("\nLibro "+bookPosition+" entregado.");
+
+    // BorrowedBooks ++
+    public void addBorrowedBooks(int num) {
+        this.borrowedBooks += num;
     }
 
-    public void returnBook(int bookPosition){
-        borrowingList[bookPosition] = null;
-        Library.books[bookPosition].setStatus(Status.Available);
-        setBorrowingBooks(-1);
-        System.out.println("\nLibro "+bookPosition+" devuelto.");
+    // Methods
+    public void borrowBook(int bookPosition) {
+        if (Library.books[bookPosition].getStatus() == Status.Available && Library.books[bookPosition] != null) {
+            Library.books[bookPosition].setStatus(Status.Borrowed);
+            Library.books[bookPosition].addBorrowedTimes(1);
+            Library.totalBorrowedBooks++;
+            borrowingList[bookPosition] = Library.books[bookPosition];
+            addBorrowedBooks(1);
+            addBorrowingBooks(1);
+            System.out.println("\nLibro " + bookPosition + " entregado.");
+        } else if (Library.books[bookPosition] != null) {
+            System.out.println("\nLibro " + bookPosition + " está ya en préstamo.");
+
+        } else {
+            System.out.println("\nLibro " + bookPosition + " no existe");
+        }
     }
 
-    public void showBorrowingList(){
-        for (int i = 0; i < Library.numBooks; i++) {
+    public void returnBook(int bookPosition) {
+        if (borrowingList[bookPosition] != null) {
+            borrowingList[bookPosition] = null;
+            Library.books[bookPosition].setStatus(Status.Available);
+            addBorrowingBooks(-1);
+            System.out.println("\nLibro " + bookPosition + " devuelto.");
+        } else {
+            System.out.println("\nNo tienes el libro " + bookPosition);
+        }
+    }
+
+    public void showBorrowingList() {
+        boolean borrowingListNull = true;
+        for (int i = 0; i < Library.maxBooks; i++) {
             if (borrowingList[i] != null) {
                 System.out.println("\nLibro: " + i
                         + "\nTitulo: " + borrowingList[i].getTitle()
                         + "\nAutor:" + borrowingList[i].getTitle()
                         + "\nCategoria:" + borrowingList[i].getCategory()
                         + "\nEstado:" + borrowingList[i].getStatus());
+                borrowingListNull = false;
             }
         }
+        if (borrowingListNull == true) {
+            System.out.println("\nNo tienes ningún libro en préstamo.");
+        }
     }
-
-    //print user info
-    //FALTAAAAAA
 }
