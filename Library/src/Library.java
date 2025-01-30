@@ -12,7 +12,7 @@ public class Library {
     public static Book[] searchBooks = new Book[maxBooks]; // Array temporal para buscar libros
     public static int numSearchBooks = 0;
     public static int totalBorrowedBooks = 0;
-    public static User maxBorrowedBooksUser;
+    public static User maxBorrowedBooksUser = new User();
     public static final int numBooksRanking = 1;
 
     /**
@@ -25,7 +25,7 @@ public class Library {
         fullUser("admin", "1234", Credentials.Admin);
         fullUser("user1", "1234", Credentials.Basic);
         fullUser("user2", "1234", Credentials.Basic);
-        
+
         books[0] = new Book("Don Quijote de la Mancha", "Miguel de Cervantes", Category.Fiction);
         books[1] = new Book("Cien años de soledad", "Gabriel García Márquez", Category.Fiction);
         books[2] = new Book("1984", "George Orwell", Category.Science);
@@ -36,6 +36,7 @@ public class Library {
         books[7] = new Book("Harry Potter y la piedra filosofal", "J.K. Rowling", Category.Fiction);
         books[8] = new Book("El Hobbit", "J.R.R. Tolkien", Category.Fiction);
         books[9] = new Book("En busca del tiempo perdido", "Marcel Proust", Category.Fiction);
+        numBooks += 10;
 
         menuLogin();
 
@@ -53,9 +54,9 @@ public class Library {
         if (contUsers < maxUsers) {
             users[contUsers] = new User(name, password, credential);
             contUsers++;
-            System.out.println("Usuario registrado correctamente.");
+            System.out.println("\nUsuario registrado correctamente.");
         } else {
-            System.out.println("No se pueden registrar más usuarios.");
+            System.out.println("\nNo se pueden registrar más usuarios.");
         }
     }
 
@@ -138,18 +139,18 @@ public class Library {
         boolean flag = true;
         while (flag) {
             System.out.println(
-                    "*****************************\n" +
+                    "\n*****************************\n" +
                             "*       MENU PRINCIPAL      *\n" +
                             "*****************************\n" +
                             "1. Iniciar sesión\n" +
                             "2. Salir\n" +
                             "*****************************");
-            System.out.print("Elige una opción: ");
+            System.out.print("\nElige una opción: ");
             int choice = Integer.parseInt(sc.nextLine());
 
             switch (choice) {
                 case 1:
-                    System.out.print("Nombre de usuario: ");
+                    System.out.print("\nNombre de usuario: ");
                     String loginName = sc.nextLine();
                     System.out.print("Contraseña: ");
                     String loginPassword = sc.nextLine();
@@ -170,7 +171,8 @@ public class Library {
                     System.out.println("Saliendo del programa.");
                     flag = false;
                 default:
-                    System.out.println("Opción no válida, por favor intenta de nuevo.");
+                    System.out.println("\nOpción no válida, por favor intenta de nuevo.");
+                    break;
             }
         }
     }
@@ -183,7 +185,7 @@ public class Library {
     public static void menuLibrary(User user) {
         boolean flag = true;
         while (flag) {
-            System.out.println("*****************************");
+            System.out.println("\n*****************************");
             System.out.println("*       MENU DE LIBRERIA    *");
             System.out.println("*****************************");
             if (user.getCredential() == Credentials.Admin) {
@@ -204,7 +206,7 @@ public class Library {
                                 "14. Salir");
             } else {
                 System.out.println(
-                        "1. Realizar préstamo\n" +
+                        "\n1. Realizar préstamo\n" +
                                 "2. Devolver libro\n" +
                                 "3. Mostrar todos los libros\n" +
                                 "4. Buscar libros\n" +
@@ -213,14 +215,14 @@ public class Library {
 
             }
 
-            System.out.print("Elige una opción: ");
+            System.out.print("\nElige una opción: ");
             int choice = Integer.parseInt(sc.nextLine());
 
             if (user.getCredential() == Credentials.Admin) {
                 switch (choice) {
                     case 1 -> addNewBook();
                     case 2 -> {
-                        System.out.print("Posicion del libro a eliminar: ");
+                        System.out.print("\nPosicion del libro a eliminar: ");
                         int position = Integer.parseInt(sc.nextLine());
                         deleteBook(position);
                         reorganiceBooks();
@@ -232,14 +234,14 @@ public class Library {
                         printSearchBooks();
                     } // case 5 y case 7 son iguales con el codigo de esta forma
                     case 6 -> {
-                        System.out.print("Posicion del libro que se quiere coger: ");
+                        System.out.print("\nPosicion del libro que se quiere coger: ");
                         int position = Integer.parseInt(sc.nextLine());
                         user.borrowBook(position);
                     }
                     case 7 -> {
-                        System.out.print("Posicion del libro que se quiere devolver: ");
+                        System.out.print("\nPosicion del libro que se quiere devolver: ");
                         int position = Integer.parseInt(sc.nextLine());
-                        user.borrowBook(position);
+                        user.returnBook(position);
                     }
                     case 8 -> printBooks();
                     case 9 -> {
@@ -251,19 +253,19 @@ public class Library {
                     case 12 -> userInfo(maxBorrowedBooksUser());
                     case 13 -> user.showBorrowingList();
                     case 14 -> flag = false;
-                    default -> System.out.println("Opción no válida.");
+                    default -> System.out.println("\nOpción no válida.");
                 }
             } else {
                 switch (choice) {
                     case 1 -> {
-                        System.out.print("Posicion del libro que se quiere coger: ");
+                        System.out.print("\nPosicion del libro que se quiere coger: ");
                         int position = Integer.parseInt(sc.nextLine());
                         user.borrowBook(position);
                     }
                     case 2 -> {
-                        System.out.print("Posicion del libro que se quiere devolver: ");
+                        System.out.print("\nPosicion del libro que se quiere devolver: ");
                         int position = Integer.parseInt(sc.nextLine());
-                        user.borrowBook(position);
+                        user.returnBook(position);
                     }
                     case 3 -> printBooks();
                     case 4 -> {
@@ -272,7 +274,7 @@ public class Library {
                     }
                     case 5 -> user.showBorrowingList();
                     case 6 -> flag = false;
-                    default -> System.out.println("Opción no válida.");
+                    default -> System.out.println("\nOpción no válida.");
                 }
             }
         }
@@ -298,7 +300,7 @@ public class Library {
                             + "\n6- Negocios"
                             + "\n7- Libro infantil"
                             + "\n8- Default");
-            System.out.print("Elije una opcion: ");
+            System.out.print("\nElije una opcion: ");
             int opcion = Integer.parseInt(sc.nextLine());
             switch (opcion) {
                 case 1 -> category = Category.Fiction;
@@ -311,7 +313,7 @@ public class Library {
                 case 8 -> category = Category.Default;
                 default -> {
                     flag = true;
-                    System.out.println("Opcion inválida, vuelve a elegir");
+                    System.out.println("\nOpcion inválida, vuelve a elegir");
                 }
             }
         } while (flag);
@@ -339,7 +341,7 @@ public class Library {
                 case 2 -> status = Status.Borrowed;
                 default -> {
                     flag = true;
-                    System.out.println("Opcion inválida, vuelve a elegir");
+                    System.out.println("\nOpcion inválida, vuelve a elegir");
                 }
             }
         } while (flag);
@@ -354,17 +356,17 @@ public class Library {
     public static void addNewBook() {
         // Comprobacion de espacio
         if (numBooks >= maxBooks) {
-            System.out.println("Biblioteca llena.");
+            System.out.println("\nBiblioteca llena.");
         } else {
             // Introduccion de parametros
             System.out.print("Titulo: ");
             String title = sc.nextLine();
-            System.out.print("Autor");
+            System.out.print("Autor: ");
             String author = sc.nextLine();
             Category category = menuCategory();
             // Añade libro
             books[numBooks] = new Book(title, author, category);
-            System.out.println("Libro añadido a posicion " + numBooks);
+            System.out.println("\nLibro añadido a posicion " + numBooks);
             numBooks++;
 
         }
@@ -392,7 +394,7 @@ public class Library {
             int opcion = Integer.parseInt(sc.nextLine());
             switch (opcion) {
                 case 1 -> {
-                    System.out.print("Tiulo: ");
+                    System.out.print("\nTiulo: ");
                     String title = sc.nextLine();
                     for (int i = 0; i < numBooks; i++) {
                         if (books[i].getTitle().equals(title)) {
@@ -402,7 +404,7 @@ public class Library {
                     }
                 }
                 case 2 -> {
-                    System.out.print("Autor: ");
+                    System.out.print("\nAutor: ");
                     String author = sc.nextLine();
                     for (int i = 0; i < numBooks; i++) {
                         if (books[i].getAuthor().equals(author)) {
@@ -431,11 +433,10 @@ public class Library {
                 }
                 default -> {
                     flag = true;
-                    System.out.println("Opcion inválida, vuelve a elegir");
+                    System.out.println("\nOpcion inválida, vuelve a elegir");
                 }
             }
-            System.out.println("Se han encontrado " + numSearchBooks + " libros.");
-            System.out.println("Se han encontrado " + numSearchBooks + " libros.");
+            System.out.println("\nSe han encontrado " + numSearchBooks + " libros.");
         } while (flag);
     }
 
@@ -445,9 +446,9 @@ public class Library {
             if (searchBooks[i] != null) {
                 System.out.println("\nLibro: " + i
                         + "\nTitulo: " + searchBooks[i].getTitle()
-                        + "\nAutor:" + searchBooks[i].getTitle()
-                        + "\nCategoria:" + searchBooks[i].getCategory()
-                        + "\nEstado:" + searchBooks[i].getStatus());
+                        + "\nAutor: " + searchBooks[i].getTitle()
+                        + "\nCategoria: " + searchBooks[i].getCategory()
+                        + "\nEstado: " + searchBooks[i].getStatus());
             }
         }
     }
@@ -466,9 +467,9 @@ public class Library {
         for (int i = 0; i < numBooks; i++) {
             System.out.println("\nLibro: " + i
                     + "\nTitulo: " + books[i].getTitle()
-                    + "\nAutor:" + books[i].getTitle()
-                    + "\nCategoria:" + books[i].getCategory()
-                    + "\nEstado:" + books[i].getStatus());
+                    + "\nAutor: " + books[i].getTitle()
+                    + "\nCategoria: " + books[i].getCategory()
+                    + "\nEstado: " + books[i].getStatus());
         }
     }
 
@@ -486,19 +487,19 @@ public class Library {
                 for (int j = i; j < maxBooks - 1; j++) {
                     books[i] = books[i + 1];
                 }
-                books[maxBooks] = null;
+                books[maxBooks-1] = null;
             }
         }
-        System.out.println("Librería reorganizada.");
+        System.out.println("\nLibrería reorganizada.");
     }
 
     public static void showTotalAndCurrentBorrowedBooks() {
-        System.out.println("Préstamos totales: " + totalBorrowedBooks);
+        System.out.println("\nPréstamos totales: " + totalBorrowedBooks);
         int totalCurrentBorrowingBooks = 0;
         for (int i = 0; i < contUsers; i++) {
             totalCurrentBorrowingBooks += users[i].getBorrowingBooks();
         }
-        System.out.println("Préstamos actuales: " + totalCurrentBorrowingBooks);
+        System.out.println("\nPréstamos actuales: " + totalCurrentBorrowingBooks);
     }
 
     public static User maxBorrowedBooksUser() {
@@ -539,7 +540,7 @@ public class Library {
      * Muestra la informacion del usuario
      */
     public static void userInfo(User user) {
-        System.out.println("Información del usuario:");
+        System.out.println("\nInformación del usuario:");
         System.out.println("Nombre: " + user.getName());
         System.out.println("Contraseña: " + user.getPassword());
         System.out.println("Credenciales: " + user.getCredential());
