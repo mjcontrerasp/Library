@@ -124,11 +124,12 @@ public class Library {
                 if (users[i].getPassword().equals(loginPassword)) {
                     return true;
                 } else {
-                    System.out.println("Contraseña incorrecta");
+                    System.out.println("\nContraseña incorrecta");
+                    return false;
                 }
             }
         }
-        System.out.println("Nombre de usuario incorrecto");
+        System.out.println("\nNombre de usuario incorrecto");
         return false;
     }
 
@@ -522,6 +523,7 @@ public class Library {
         } else {
             for (int i = 0; i < numBooks; i++) {
                 if (maxBorrowedTimes <= books[i].getBorrowedTimes()) {
+                    maxBorrowedTimes = books[i].getBorrowedTimes();
                     position1 = i;
                 }
             }
