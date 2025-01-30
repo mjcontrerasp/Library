@@ -108,6 +108,20 @@ public class Library {
     }
 
     /**
+     * Method to show repated title
+     * 
+     * @param user
+     */
+    public static boolean notRepeatTitle(String bookTitle) {
+        for (int i = 0; i < maxBooks; i++) {
+            if (books[i].getTitle().equals(bookTitle)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
      * Method to comproved credenthial to login
      * 
      * @param name
@@ -235,11 +249,13 @@ public class Library {
                         printSearchBooks();
                     } // case 5 y case 7 son iguales con el codigo de esta forma
                     case 6 -> {
+                        printBooks();
                         System.out.print("\nPosicion del libro que se quiere coger: ");
                         int position = Integer.parseInt(sc.nextLine());
                         user.borrowBook(position);
                     }
                     case 7 -> {
+                        user.showBorrowingList();
                         System.out.print("\nPosicion del libro que se quiere devolver: ");
                         int position = Integer.parseInt(sc.nextLine());
                         user.returnBook(position);
@@ -259,11 +275,13 @@ public class Library {
             } else {
                 switch (choice) {
                     case 1 -> {
+                        printBooks();
                         System.out.print("\nPosicion del libro que se quiere coger: ");
                         int position = Integer.parseInt(sc.nextLine());
                         user.borrowBook(position);
                     }
                     case 2 -> {
+                        user.showBorrowingList();
                         System.out.print("\nPosicion del libro que se quiere devolver: ");
                         int position = Integer.parseInt(sc.nextLine());
                         user.returnBook(position);
@@ -360,8 +378,11 @@ public class Library {
             System.out.println("\nBiblioteca llena.");
         } else {
             // Introduccion de parametros
-            System.out.print("Titulo: ");
-            String title = sc.nextLine();
+            String title;
+            do{
+                System.out.print("Titulo: ");
+                title = sc.nextLine();
+            }while (!notRepeatName(title));
             System.out.print("Autor: ");
             String author = sc.nextLine();
             Category category = menuCategory();
@@ -459,7 +480,7 @@ public class Library {
             if (searchBooks[i] != null) {
                 System.out.println("\nLibro: " + i
                         + "\nTitulo: " + searchBooks[i].getTitle()
-                        + "\nAutor: " + searchBooks[i].getTitle()
+                        + "\nAutor: " + searchBooks[i].getAuthor()
                         + "\nCategoria: " + searchBooks[i].getCategory()
                         + "\nEstado: " + searchBooks[i].getStatus());
             }
@@ -471,7 +492,7 @@ public class Library {
         if (books[position] != null) {
             System.out.println("\nLibro: " + position
                     + "\nTitulo: " + books[position].getTitle()
-                    + "\nAutor:" + books[position].getTitle()
+                    + "\nAutor:" + books[position].getAuthor()
                     + "\nCategoria:" + books[position].getCategory()
                     + "\nEstado:" + books[position].getStatus());
         }
@@ -483,7 +504,7 @@ public class Library {
             if (books[i] != null) {
                 System.out.println("\nLibro: " + i
                         + "\nTitulo: " + books[i].getTitle()
-                        + "\nAutor: " + books[i].getTitle()
+                        + "\nAutor: " + books[i].getAuthor()
                         + "\nCategoria: " + books[i].getCategory()
                         + "\nEstado: " + books[i].getStatus());
             }
@@ -579,7 +600,6 @@ public class Library {
     public static void userInfo(User user) {
         System.out.println("\nInformación del usuario:");
         System.out.println("Nombre: " + user.getName());
-        System.out.println("Contraseña: " + user.getPassword());
         System.out.println("Credenciales: " + user.getCredential());
         System.out.println("Libros en préstamo: " + user.getBorrowingBooks());
         System.out.println("Libros prestados: " + user.getBorrowedBooks());
