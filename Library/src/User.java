@@ -110,7 +110,7 @@ public class User {
 
     public void showBorrowingList() {
         boolean borrowingListNull = true;
-        for (int i = 0; i < Library.numBooks; i++) {
+        for (int i = 0; i < Library.maxBooks; i++) {
             if (borrowingList[i] != null) {
                 System.out.println("\nLibro: " + i
                         + "\nTitulo: " + borrowingList[i].getTitle()
