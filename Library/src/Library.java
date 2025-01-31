@@ -377,12 +377,13 @@ public class Library {
         if (numBooks >= maxBooks) {
             System.out.println("\nBiblioteca llena.");
         } else {
-            // Introduccion de parametros
-            String title;
-            do {
+            System.out.print("Titulo: ");
+            String title = sc.nextLine();
+            while (notRepeatTitle(title) == false) {
+                System.out.println("Titulo ya en uso, por favor, elija un titulo nuevo");
                 System.out.print("Titulo: ");
                 title = sc.nextLine();
-            } while (!notRepeatTitle(title));
+            }
             System.out.print("Autor: ");
             String author = sc.nextLine();
             Category category = menuCategory();
