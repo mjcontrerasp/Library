@@ -20,8 +20,6 @@ public class Library {
      * @author Manu
      * @author Gabino
      * @version 1.0
-     * @param args
-     * @throws Exception
      */
     public static void main(String[] args) throws Exception {
         fullUser("admin", "1234", Credentials.Admin);
