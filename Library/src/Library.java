@@ -17,9 +17,10 @@ public class Library {
 
     /**
      * Main method
+     * 
      * @author Manu
      * @author Gabino
-     * @version 1.0
+     * @version 1.01
      */
     public static void main(String[] args) throws Exception {
         fullUser("admin", "1234", Credentials.Admin);
@@ -69,25 +70,25 @@ public class Library {
         boolean choice = true;
         String name = "";
         while (choice) {
-            System.out.println("Nombre de usuario: ");
+            System.out.println("\nNombre de usuario: ");
             name = sc.nextLine();
             if (!notRepeatName(name)) {
-                System.out.println("Nombre de usuario ya en uso, por favor, elija un nombre de usuario nuevo");
+                System.out.println("\nNombre de usuario ya en uso, por favor, elija un nombre de usuario nuevo");
             } else {
                 choice = false;
             }
         }
-        System.out.println("Contraseña: ");
+        System.out.println("\nContraseña: ");
         String password = sc.nextLine();
 
         Credentials userCredential = null;
         while (userCredential == null) {
-            System.out.print("Tipo de usuario (1. Administrador, 2. Básico): ");
+            System.out.print("\nTipo de usuario (1. Administrador, 2. Básico): ");
             int userType = Integer.parseInt(sc.nextLine());
             switch (userType) {
                 case 1 -> userCredential = Credentials.Admin;
                 case 2 -> userCredential = Credentials.Basic;
-                default -> System.out.println("Opción no válida. Por favor, elija 1 o 2.");
+                default -> System.out.println("\nOpción no válida. Por favor, elija 1 o 2.");
             }
         }
         fullUser(name, password, userCredential);
@@ -114,8 +115,10 @@ public class Library {
      */
     public static boolean notRepeatTitle(String bookTitle) {
         for (int i = 0; i < maxBooks; i++) {
-            if (books[i].getTitle().toLowerCase().equals(bookTitle.toLowerCase())) {
-                return false;
+            if (books[i] != null) {
+                if (books[i].getTitle().toLowerCase().equals(bookTitle.toLowerCase())) {
+                    return false;
+                }
             }
         }
         return true;
@@ -377,10 +380,10 @@ public class Library {
         if (numBooks >= maxBooks) {
             System.out.println("\nBiblioteca llena.");
         } else {
-            System.out.print("Titulo: ");
+            System.out.print("\nTitulo: ");
             String title = sc.nextLine();
             while (notRepeatTitle(title) == false) {
-                System.out.println("Titulo ya en uso, por favor, elija un titulo nuevo");
+                System.out.println("\nTitulo ya en uso, por favor, elija un titulo nuevo\n");
                 System.out.print("Titulo: ");
                 title = sc.nextLine();
             }
@@ -390,9 +393,9 @@ public class Library {
             // Añade libro a primera posicion libre
             for (int i = 0; i < maxBooks; i++) {
                 if (books[i] == null) {
+                    numBooks++;
                     books[i] = new Book(title, author, category);
                     System.out.println("\nLibro añadido a posicion " + i);
-                    numBooks++;
                     break;
                 }
             }
