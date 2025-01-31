@@ -81,30 +81,38 @@ public class User {
 
     // Methods
     public void borrowBook(int bookPosition) {
-        if (Library.books[bookPosition].getStatus() == Status.Available && Library.books[bookPosition] != null) {
-            Library.books[bookPosition].setStatus(Status.Borrowed);
-            Library.books[bookPosition].addBorrowedTimes(1);
-            Library.totalBorrowedBooks++;
-            borrowingList[bookPosition] = Library.books[bookPosition];
-            addBorrowedBooks(1);
-            addBorrowingBooks(1);
-            System.out.println("\nLibro " + bookPosition + " entregado.");
-        } else if (Library.books[bookPosition] != null) {
-            System.out.println("\nLibro " + bookPosition + " está ya en préstamo.");
-
+        if (bookPosition >= Library.maxBooks) {
+            System.out.println("\nSolo hay libros hasta la position " + (Library.maxBooks - 1));
         } else {
-            System.out.println("\nLibro " + bookPosition + " no existe");
+            if (Library.books[bookPosition].getStatus() == Status.Available && Library.books[bookPosition] != null) {
+                Library.books[bookPosition].setStatus(Status.Borrowed);
+                Library.books[bookPosition].addBorrowedTimes(1);
+                Library.totalBorrowedBooks++;
+                borrowingList[bookPosition] = Library.books[bookPosition];
+                addBorrowedBooks(1);
+                addBorrowingBooks(1);
+                System.out.println("\nLibro " + bookPosition + " entregado.");
+            } else if (Library.books[bookPosition] != null) {
+                System.out.println("\nLibro " + bookPosition + " está ya en préstamo.");
+
+            } else {
+                System.out.println("\nLibro " + bookPosition + " no existe");
+            }
         }
     }
 
     public void returnBook(int bookPosition) {
-        if (borrowingList[bookPosition] != null) {
-            borrowingList[bookPosition] = null;
-            Library.books[bookPosition].setStatus(Status.Available);
-            addBorrowingBooks(-1);
-            System.out.println("\nLibro " + bookPosition + " devuelto.");
+        if (bookPosition >= Library.maxBooks) {
+            System.out.println("\nSolo hay libros hasta la position " + (Library.maxBooks - 1));
         } else {
-            System.out.println("\nNo tienes el libro " + bookPosition);
+            if (borrowingList[bookPosition] != null) {
+                borrowingList[bookPosition] = null;
+                Library.books[bookPosition].setStatus(Status.Available);
+                addBorrowingBooks(-1);
+                System.out.println("\nLibro " + bookPosition + " devuelto.");
+            } else {
+                System.out.println("\nNo tienes el libro " + bookPosition);
+            }
         }
     }
 

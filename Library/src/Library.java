@@ -19,8 +19,7 @@ public class Library {
      * Main method
      * @author Manu
      * @author Gabino
-     * @param args
-     * @throws Exception
+     * @version 1.0
      */
     public static void main(String[] args) throws Exception {
         fullUser("admin", "1234", Credentials.Admin);
@@ -101,7 +100,21 @@ public class Library {
      */
     public static boolean notRepeatName(String userName) {
         for (int i = 0; i < contUsers; i++) {
-            if (users[i].getName().equals(userName)) {
+            if (users[i].getName().toLowerCase().equals(userName.toLowerCase())) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Method to show repated title
+     * 
+     * @param user
+     */
+    public static boolean notRepeatTitle(String bookTitle) {
+        for (int i = 0; i < maxBooks; i++) {
+            if (books[i].getTitle().toLowerCase().equals(bookTitle.toLowerCase())) {
                 return false;
             }
         }
@@ -236,11 +249,13 @@ public class Library {
                         printSearchBooks();
                     } // case 5 y case 7 son iguales con el codigo de esta forma
                     case 6 -> {
+                        printBooks();
                         System.out.print("\nPosicion del libro que se quiere coger: ");
                         int position = Integer.parseInt(sc.nextLine());
                         user.borrowBook(position);
                     }
                     case 7 -> {
+                        user.showBorrowingList();
                         System.out.print("\nPosicion del libro que se quiere devolver: ");
                         int position = Integer.parseInt(sc.nextLine());
                         user.returnBook(position);
@@ -260,11 +275,13 @@ public class Library {
             } else {
                 switch (choice) {
                     case 1 -> {
+                        printBooks();
                         System.out.print("\nPosicion del libro que se quiere coger: ");
                         int position = Integer.parseInt(sc.nextLine());
                         user.borrowBook(position);
                     }
                     case 2 -> {
+                        user.showBorrowingList();
                         System.out.print("\nPosicion del libro que se quiere devolver: ");
                         int position = Integer.parseInt(sc.nextLine());
                         user.returnBook(position);
@@ -360,9 +377,13 @@ public class Library {
         if (numBooks >= maxBooks) {
             System.out.println("\nBiblioteca llena.");
         } else {
-            // Introduccion de parametros
             System.out.print("Titulo: ");
             String title = sc.nextLine();
+            while (notRepeatTitle(title) == false) {
+                System.out.println("Titulo ya en uso, por favor, elija un titulo nuevo");
+                System.out.print("Titulo: ");
+                title = sc.nextLine();
+            }
             System.out.print("Autor: ");
             String author = sc.nextLine();
             Category category = menuCategory();
@@ -404,7 +425,7 @@ public class Library {
                     String title = sc.nextLine();
                     for (int i = 0; i < maxBooks; i++) {
                         if (books[i] != null) {
-                            if (books[i].getTitle().equals(title)) {
+                            if (books[i].getTitle().toLowerCase().equals(title.toLowerCase())) {
                                 searchBooks[i] = books[i];
                                 numSearchBooks++;
                             }
@@ -416,7 +437,7 @@ public class Library {
                     String author = sc.nextLine();
                     for (int i = 0; i < maxBooks; i++) {
                         if (books[i] != null) {
-                            if (books[i].getAuthor().equals(author)) {
+                            if (books[i].getAuthor().toLowerCase().equals(author.toLowerCase())) {
                                 searchBooks[i] = books[i];
                                 numSearchBooks++;
                             }
@@ -460,7 +481,7 @@ public class Library {
             if (searchBooks[i] != null) {
                 System.out.println("\nLibro: " + i
                         + "\nTitulo: " + searchBooks[i].getTitle()
-                        + "\nAutor: " + searchBooks[i].getTitle()
+                        + "\nAutor: " + searchBooks[i].getAuthor()
                         + "\nCategoria: " + searchBooks[i].getCategory()
                         + "\nEstado: " + searchBooks[i].getStatus());
             }
@@ -472,7 +493,7 @@ public class Library {
         if (books[position] != null) {
             System.out.println("\nLibro: " + position
                     + "\nTitulo: " + books[position].getTitle()
-                    + "\nAutor:" + books[position].getTitle()
+                    + "\nAutor:" + books[position].getAuthor()
                     + "\nCategoria:" + books[position].getCategory()
                     + "\nEstado:" + books[position].getStatus());
         }
@@ -484,7 +505,7 @@ public class Library {
             if (books[i] != null) {
                 System.out.println("\nLibro: " + i
                         + "\nTitulo: " + books[i].getTitle()
-                        + "\nAutor: " + books[i].getTitle()
+                        + "\nAutor: " + books[i].getAuthor()
                         + "\nCategoria: " + books[i].getCategory()
                         + "\nEstado: " + books[i].getStatus());
             }
@@ -493,18 +514,22 @@ public class Library {
 
     // Elimina un libro
     public static void deleteBook(int position) {
-        if (books[position] != null) {
-            if (books[position].getStatus() == Status.Available) {
-                books[position] = null;
-                numBooks--;
-                System.out.println("\nLibro " + position + " eliminado.");
-            } else {
-                System.out.println("\nLibro en préstamo, se tiene que devolver antes de eliminar de la biblioteca.");
-            }
+        if (position >= maxBooks) {
+            System.out.println("\nSolo hay libros hasta la position " + (maxBooks - 1));
         } else {
-            System.out.println("\nLibro no encontrado.");
+            if (books[position] != null) {
+                if (books[position].getStatus() == Status.Available) {
+                    books[position] = null;
+                    numBooks--;
+                    System.out.println("\nLibro " + position + " eliminado.");
+                } else {
+                    System.out
+                            .println("\nLibro en préstamo, se tiene que devolver antes de eliminar de la biblioteca.");
+                }
+            } else {
+                System.out.println("\nLibro no encontrado.");
+            }
         }
-
     }
 
     // Reorganiza books[] para que no haya huecos //Eliminada de momento
@@ -580,7 +605,6 @@ public class Library {
     public static void userInfo(User user) {
         System.out.println("\nInformación del usuario:");
         System.out.println("Nombre: " + user.getName());
-        System.out.println("Contraseña: " + user.getPassword());
         System.out.println("Credenciales: " + user.getCredential());
         System.out.println("Libros en préstamo: " + user.getBorrowingBooks());
         System.out.println("Libros prestados: " + user.getBorrowedBooks());
