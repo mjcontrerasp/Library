@@ -100,7 +100,7 @@ public class Library {
      */
     public static boolean notRepeatName(String userName) {
         for (int i = 0; i < contUsers; i++) {
-            if (users[i].getName().equals(userName)) {
+            if (users[i].getName().toLowerCase().equals(userName.toLowerCase())) {
                 return false;
             }
         }
@@ -114,7 +114,7 @@ public class Library {
      */
     public static boolean notRepeatTitle(String bookTitle) {
         for (int i = 0; i < maxBooks; i++) {
-            if (books[i].getTitle().equals(bookTitle)) {
+            if (books[i].getTitle().toLowerCase().equals(bookTitle.toLowerCase())) {
                 return false;
             }
         }
@@ -425,7 +425,7 @@ public class Library {
                     String title = sc.nextLine();
                     for (int i = 0; i < maxBooks; i++) {
                         if (books[i] != null) {
-                            if (books[i].getTitle().equals(title)) {
+                            if (books[i].getTitle().toLowerCase().equals(title.toLowerCase())) {
                                 searchBooks[i] = books[i];
                                 numSearchBooks++;
                             }
@@ -437,7 +437,7 @@ public class Library {
                     String author = sc.nextLine();
                     for (int i = 0; i < maxBooks; i++) {
                         if (books[i] != null) {
-                            if (books[i].getAuthor().equals(author)) {
+                            if (books[i].getAuthor().toLowerCase().equals(author.toLowerCase())) {
                                 searchBooks[i] = books[i];
                                 numSearchBooks++;
                             }
@@ -514,18 +514,22 @@ public class Library {
 
     // Elimina un libro
     public static void deleteBook(int position) {
-        if (books[position] != null) {
-            if (books[position].getStatus() == Status.Available) {
-                books[position] = null;
-                numBooks--;
-                System.out.println("\nLibro " + position + " eliminado.");
-            } else {
-                System.out.println("\nLibro en préstamo, se tiene que devolver antes de eliminar de la biblioteca.");
-            }
+        if (position >= maxBooks) {
+            System.out.println("\nSolo hay libros hasta la position " + (maxBooks - 1));
         } else {
-            System.out.println("\nLibro no encontrado.");
+            if (books[position] != null) {
+                if (books[position].getStatus() == Status.Available) {
+                    books[position] = null;
+                    numBooks--;
+                    System.out.println("\nLibro " + position + " eliminado.");
+                } else {
+                    System.out
+                            .println("\nLibro en préstamo, se tiene que devolver antes de eliminar de la biblioteca.");
+                }
+            } else {
+                System.out.println("\nLibro no encontrado.");
+            }
         }
-
     }
 
     // Reorganiza books[] para que no haya huecos //Eliminada de momento
