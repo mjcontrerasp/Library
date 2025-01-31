@@ -17,7 +17,8 @@ public class Library {
 
     /**
      * Main method
-     * 
+     * @author Manu
+     * @author Gabino
      * @param args
      * @throws Exception
      */
